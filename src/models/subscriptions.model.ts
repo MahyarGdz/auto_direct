@@ -16,10 +16,8 @@ export class SubscriptionsEntity {
   start_date: Date;
   @Column({ nullable: false })
   end_date: Date;
-  @Column({ nullable: false ,enum:['active', 'expired']})
+  @Column({ nullable: false, enum: ["active", "expired"] })
   status: string;
   @CreateDateColumn()
   created_At: Date;
-
-
 }

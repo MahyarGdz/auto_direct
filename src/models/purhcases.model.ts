@@ -6,22 +6,29 @@ import { PlansEntity } from "./plans.model";
 export class PurhcasesEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
+
   @Column({ nullable: false })
   pricePaid: string;
+
   @Column({ nullable: false, unique: true })
   trackCode: string;
-  @Column({ nullable: false, type: "datetime" })
+
+  @Column({ nullable: false, type: Date })
   purchaseDate: Date;
+
   @Column({ nullable: false, enum: ["waiting", "paid", "cancelled"] })
   status: string;
+
   @CreateDateColumn()
   created_At: Date;
+
   @UpdateDateColumn()
   update_At: Date;
 
   @ManyToOne(() => UsersEntity, (user) => user.purhcases, { nullable: false })
   @JoinColumn({ name: "userId" })
   user: UsersEntity;
+
   @ManyToOne(() => PlansEntity, (plan) => plan.purhcases, { nullable: false })
   @JoinColumn({ name: "planId" })
   plan: PlansEntity;
