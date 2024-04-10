@@ -10,7 +10,7 @@
     "start:dev": "npm-run-all prebuild build start",
     "lint": "eslint . --ext .ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "debug": "nodemon --watch '*.ts' --exec 'node -r ts-node/register --env-file=.env' ./src/server.ts",
+    "debug": "nodemon --watch '*.ts' --exec node -r ts-node/register --env-file=.env' ./src/server.ts",
     "test": "jest"
   },
   "repository": {
