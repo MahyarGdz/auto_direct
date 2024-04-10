@@ -1,7 +1,7 @@
 import { DataSource } from "typeorm";
 import { join, sep } from "path";
 
-const entitiesPath = join(process.cwd(), sep, "src", sep, "models", sep, "**/*{.js,.ts}");
+const entitiesPath = join(process.cwd(), sep, "src", sep, "models", sep, "**/**{.js,.ts}");
 
 export const appDataSrc = new DataSource({
   type: "postgres",

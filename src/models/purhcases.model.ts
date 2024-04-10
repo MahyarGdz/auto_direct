@@ -2,8 +2,8 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGenerat
 import { UsersEntity } from "./users.model";
 import { PlansEntity } from "./plans.model";
 
-@Entity("users")
-export class PurhcasesEntity {
+@Entity("Purchases")
+export class PurchasesEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 

@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { SubscriptionsEntity } from "./subscriptions.model";
-import { PurhcasesEntity } from "./purhcases.model";
+import { PurchasesEntity } from "./purhcases.model";
 
 @Entity("users")
 export class UsersEntity {
@@ -28,6 +28,6 @@ export class UsersEntity {
   @OneToMany(() => SubscriptionsEntity, (subscription) => subscription.user)
   subscriptions: SubscriptionsEntity[];
 
-  @OneToMany(() => PurhcasesEntity, (purhcase) => purhcase.user)
-  purhcases: PurhcasesEntity[];
+  @OneToMany(() => PurchasesEntity, (purchase) => purchase.user)
+  purhcases: PurchasesEntity[];
 }
