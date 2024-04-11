@@ -1,3 +1,4 @@
+import { Code } from "typeorm";
 import { AuthType } from "../../common/enums";
 import { NotFoundError } from "../../common/error/app.error";
 import { UserService } from "../users/user.service";
@@ -22,25 +23,38 @@ export class AuhtService {
     // send otp to user
     //--
     //--
-
+    
     // save code in cach
-    const key = `${phone}:Login:Otp`;
-    this.cache.set(key, otpCode, 120);
+    this.saveOtp(otpCode,phone)
 
     //
 
     if (!user) {
       return {
         type: AuthType.Register,
-        code: otpCode,
         phone:phone
       };
     }
 
     return {
-      type: AuthType.Login,
-      code: otpCode,
+      type: AuthType.Login,   
       phone:phone
     };
   }
+
+  // Save OtpCode in Cache
+  async saveOtp(otpCode:string,phone:string){
+    
+    const key = `${phone}:Login:Otp`;
+
+    //check otpCode exist in cache
+    const codeInCache = this.cache.get(key);
+    if(codeInCache) this.cache.del(key)
+
+      // save otpCode in cache
+    this.cache.set(key, otpCode, 120);
+    console.log(`${phone}:Login:Otp : `+ otpCode);
+
+  }
+
 }
