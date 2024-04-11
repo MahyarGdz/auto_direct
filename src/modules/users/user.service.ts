@@ -7,7 +7,7 @@ export class UserService {
 
   async findUserByPhone(phone: string): Promise<UsersEntity | null> {
     const user = await this.UserRepository.findOne({ where: { phone: phone } });
-    if (!user) throw new NotFoundError("the user was not found by given phone");
+
     return user;
   }
   async test(): Promise<string> {
