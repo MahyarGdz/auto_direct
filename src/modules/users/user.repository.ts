@@ -1,10 +1,10 @@
-
-import { EntityManager, EntityTarget, Repository } from "typeorm";
+import { EntityTarget, Repository } from "typeorm";
 import { UsersEntity } from "../../models";
+import { appDataSrc } from "../../core";
 
 class UserRepository extends Repository<UsersEntity> {
-  constructor(target: EntityTarget<UsersEntity>, manager: EntityManager) {
-    super(target, manager);
+  constructor(target: EntityTarget<UsersEntity>) {
+    super(target, appDataSrc.manager);
   }
 }
 
