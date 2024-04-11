@@ -1,4 +1,4 @@
-import { AuthType } from './auth.enum';
+import { AuthMessage, AuthMessageResponse } from './message.enum';
 export{
-    AuthType
+    AuthMessage,AuthMessageResponse
 }
