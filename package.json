@@ -10,7 +10,7 @@
     "start:dev": "npm-run-all build start",
     "lint": "eslint . --ext .ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "debug": "nodemon --watch '*.ts' --exec 'node -r ts-node/register --env-file=.env' ./src/server.ts",
+    "debug": "nodemon --watch '*.ts' --exec node -r ts-node/register --env-file=.env' ./src/server.ts",
     "test": "jest",
     "typeorm": "npx typeorm -d dist/core/appDatasource.js",
     "migration:run": "npm-run-all build \"typeorm -- migration:run \"",
@@ -34,6 +34,7 @@
   },
   "homepage": "https://github.com/MahyarGdz/auto_direct#readme",
   "dependencies": {
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
