@@ -1,8 +1,9 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, Relation } from "typeorm";
 import { UsersEntity } from "./users.model";
 import { PlansEntity } from "./plans.model";
+import { PurchaseStatus } from "../common/enums/status.enum";
 
-@Entity("Purchases")
+@Entity("purchases")
 export class PurchasesEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -16,8 +17,8 @@ export class PurchasesEntity {
   @Column({ nullable: false, type: Date })
   purchaseDate: Date;
 
-  @Column({ nullable: false, enum: ["waiting", "paid", "cancelled"] })
-  status: string;
+  @Column({ type: "enum", enum: PurchaseStatus, default: PurchaseStatus.Waiting })
+  status: PurchaseStatus;
 
   @CreateDateColumn()
   created_At: Date;
@@ -25,11 +26,11 @@ export class PurchasesEntity {
   @UpdateDateColumn()
   update_At: Date;
 
-  @ManyToOne(() => UsersEntity, (user) => user.purhcases, { nullable: false })
+  @ManyToOne(() => UsersEntity, (user) => user.purchases, { nullable: false })
   @JoinColumn({ name: "userId" })
-  user: UsersEntity;
+  user: Relation<UsersEntity>;
 
-  @ManyToOne(() => PlansEntity, (plan) => plan.purhcases, { nullable: false })
+  @ManyToOne(() => PlansEntity, (plan) => plan.purchases, { nullable: false })
   @JoinColumn({ name: "planId" })
-  plan: PlansEntity;
+  plan: Relation<PlansEntity>;
 }

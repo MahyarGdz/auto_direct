@@ -1,33 +1,33 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Relation, UpdateDateColumn } from "typeorm";
 import { SubscriptionsEntity } from "./subscriptions.model";
 import { PurchasesEntity } from "./purhcases.model";
 
 @Entity("users")
 export class UsersEntity {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id!: string;
 
   @Column({ nullable: false })
-  fullname: string;
+  fullname!: string;
 
   @Column({ nullable: false, unique: true })
-  phone: string;
+  phone!: string;
 
   @Column({ nullable: true, unique: true })
-  googleid: string;
+  googleid!: string;
 
   @Column({ nullable: true, unique: true })
-  facebookId: string;
+  facebookId!: string;
 
   @CreateDateColumn()
-  created_At: Date;
+  created_At!: Date;
 
   @UpdateDateColumn()
-  update_At: Date;
+  update_At!: Date;
 
   @OneToMany(() => SubscriptionsEntity, (subscription) => subscription.user)
-  subscriptions: SubscriptionsEntity[];
+  subscriptions: Array<Relation<SubscriptionsEntity>>;
 
   @OneToMany(() => PurchasesEntity, (purchase) => purchase.user)
-  purhcases: PurchasesEntity[];
+  purchases: Array<Relation<PurchasesEntity>>;
 }

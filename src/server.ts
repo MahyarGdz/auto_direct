@@ -1,14 +1,22 @@
 import "reflect-metadata";
 import dotenv from "dotenv";
 dotenv.config();
-import { appDataSrc } from "./core";
+import http from "http";
+import app from "./app";
+
+import { appDataSrc, logger } from "./core";
+const server = http.createServer(app);
+const port = process.env.PORT || 3000;
 
 async function bootStrap(): Promise<void> {
   try {
     await appDataSrc.initialize();
-    console.log(`the database has been initialized.`);
+    logger.info("The database has been initialized.");
+    server.listen(port, () => {
+      logger.info(`server is starting on http://localhost:${port}`);
+    });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     process.exit(1);
   }
 }

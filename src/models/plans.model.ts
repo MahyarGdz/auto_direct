@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Relation, UpdateDateColumn } from "typeorm";
 import { SubscriptionsEntity } from "./subscriptions.model";
 import { PurchasesEntity } from "./purhcases.model";
 
@@ -10,7 +10,7 @@ export class PlansEntity {
   @Column({ nullable: false })
   price: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: "timestamp" })
   duration: Date;
 
   @CreateDateColumn()
@@ -20,8 +20,8 @@ export class PlansEntity {
   update_At: Date;
 
   @OneToMany(() => SubscriptionsEntity, (subscription) => subscription.plan)
-  subscriptions: SubscriptionsEntity[];
+  subscriptions: Array<Relation<SubscriptionsEntity>>;
 
   @OneToMany(() => PurchasesEntity, (purchase) => purchase.plan)
-  purhcases: PurchasesEntity[];
+  purchases: Array<Relation<PurchasesEntity>>;
 }
