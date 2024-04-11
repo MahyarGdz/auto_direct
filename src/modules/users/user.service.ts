@@ -1,16 +1,13 @@
-import { NotFoundError } from "../../common/error/app.error";
 import { UsersEntity } from "../../models";
-import UserRepository from "./user.repository";
+import { UserRepository } from ".";
 
-export class UserService {
+class UserService {
   constructor(private readonly UserRepository: UserRepository) {}
 
   async findUserByPhone(phone: string): Promise<UsersEntity | null> {
     const user = await this.UserRepository.findOne({ where: { phone: phone } });
-
     return user;
   }
-  async test(): Promise<string> {
-    return "test";
-  }
 }
+
+export default UserService;

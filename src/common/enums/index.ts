@@ -1,4 +1,2 @@
-import { AuthMessage, AuthMessageResponse } from './message.enum';
-export{
-    AuthMessage,AuthMessageResponse
-}
+import { AuthMessage, AuthMessageResponse } from "./message.enum";
+export { AuthMessage, AuthMessageResponse };

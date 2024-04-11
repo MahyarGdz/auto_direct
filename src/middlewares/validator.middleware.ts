@@ -1,38 +1,30 @@
 import { plainToInstance } from "class-transformer";
-import { validate } from "class-validator";
+import { ValidationError, validate } from "class-validator";
 import { NextFunction, Request, Response } from "express";
+import { BadRequestError } from "../common/error/app.error";
 
 const ValidatorMiddlewares = (validationSchema: any) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    
-    let errors: object[] = [];
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // ---- get Body ----------
 
-    // ---- get Body ----------
+      const body = req.body;
 
-    const body = req.body;
+      const validationClass = plainToInstance(validationSchema, body);
 
-    const validationClass = plainToInstance(validationSchema, body);
+      // ------ validation -------------
+      const errors: ValidationError[] = await validate(validationClass, {});
 
-    // ------ validation -------------
-
-    validate(validationClass, {}).then((error: any) => {
-        
-      if (error.length > 0) {
-
-        error.map((err: any) => {
-
-          errors.push({ [err.property]: Object.values(err.constraints) });
-
-        });
-
-        res.status(400).send({errors:errors});
-
-      }else{
-
-        next()
-
+      if (errors.length > 0) {
+        const errorMsg = errors.map((error) => Object.values(error.constraints!)).flat();
+        throw new BadRequestError("bad Request", errorMsg);
+        // res.status(400).send({ errors: errors });
+      } else {
+        next();
       }
-    });
+    } catch (error) {
+      next(error);
+    }
   };
 };
 
