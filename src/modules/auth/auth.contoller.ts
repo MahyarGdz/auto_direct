@@ -1,11 +1,11 @@
 import { Response, Request } from "express";
-import { UserService } from "../users/user.service";
 import { Logger } from "winston";
 import { AuthLoginDto } from "./dto/authLogin.dto";
+import { AuhtService } from "./auth.service";
 
 export class AuthController {
   constructor(
-    private userService: UserService,
+    private readonly authService:AuhtService,
     private logger: Logger,
   ) {}
 
@@ -21,7 +21,9 @@ export class AuthController {
 
     const authDto: AuthLoginDto = req.body
 
-     res.json(authDto)
+    res.json( await this.authService.LoginS(authDto))
+
+
     // return authDto
   }
 }
