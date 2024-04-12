@@ -5,6 +5,7 @@ import { AuthLoginDto, AuthCheckOtpDto } from ".";
 import * as crypto from "crypto";
 import * as NodeCache from "node-cache";
 import { JwtToken } from "../../utils";
+import { SMS } from "../../helpers";
 
 class AuthService {
   constructor(
@@ -19,12 +20,12 @@ class AuthService {
     const otpCode = this.generateOtpCode();
 
     // send otp to user
-    // await this.sendOtpSms(phone, otpCode);
+    await SMS.sendSmsVerifyCode(phone, otpCode);
 
     // save code in cach
     await this.saveOtpCodeInCache(otpCode, phone);
-    //
-
+    
+    // 
     return {
       message: "An otp code was sent to the following phone number",
       phone: phone,

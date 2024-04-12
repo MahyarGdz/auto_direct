@@ -12,5 +12,7 @@ declare namespace NodeJS {
     JWT_SECRET: string;
 
     SMS_API_KEY: string;
+    SMS_ENDPOINT_VERIFY: string;
+    SMS_TEMPLATEID: string;
   }
 }
