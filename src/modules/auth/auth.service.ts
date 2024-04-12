@@ -24,8 +24,6 @@ class AuthService {
 
     // save code in cach
     await this.saveOtpCodeInCache(otpCode, phone);
-    
-    // 
     return {
       message: "An otp code was sent to the following phone number",
       phone: phone,
@@ -83,9 +81,6 @@ class AuthService {
   private generateOtpCode(): string {
     return crypto.randomInt(10000, 99999).toString();
   }
-
-  //   private async sendOtpSms(phone: string, otpCode: string): Promise<void> {
-  //   }
 }
 
 export default AuthService;
