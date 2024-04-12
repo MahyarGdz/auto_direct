@@ -1,4 +1,2 @@
-import { SMS } from './sms.helper';
-export {
-    SMS
-}
+import { SMS } from "./sms.helper";
+export { SMS };

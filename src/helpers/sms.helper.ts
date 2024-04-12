@@ -6,7 +6,6 @@ export class SMS {
   constructor() {}
 
   static async sendSmsVerifyCode(mobile: string, otpCode: string) {
-    
     const ENDPOINT = `${process.env.SMS_ENDPOINT_VERIFY}`;
     const APIKEY = `${process.env.SMS_API_KEY}`;
     const templateId = `${process.env.SMS_TEMPLATEID}`;

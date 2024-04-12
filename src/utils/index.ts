@@ -1,2 +1,2 @@
-import { JwtToken } from './jwt.token';
-export {JwtToken}
+import { JwtToken } from "./jwt.token";
+export { JwtToken };
