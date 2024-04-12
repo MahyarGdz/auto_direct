@@ -37,9 +37,11 @@ class AuthService {
     const key = `${phone}:Login:Otp`;
 
     // check otpCode and delete it after get the key
-    const codeInCache = this.cache.take(key);
+    const codeInCache = this.cache.get(key);
     if (!codeInCache || otpCode !== codeInCache) throw new UnauthorizedError(AuthMessage.OtpIncorrect);
 
+    this.cache.del(key);
+    
     // check user exist
     let user = await this.userService.findUserByPhone(phone);
     if (!user) {
