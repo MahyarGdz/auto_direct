@@ -4,6 +4,7 @@ import { UserService, UserRepository } from "../users";
 import { AuthLoginDto, AuthCheckOtpDto } from ".";
 import * as crypto from "crypto";
 import * as NodeCache from "node-cache";
+import { JwtToken } from "../../utils";
 
 class AuthService {
   constructor(
@@ -41,7 +42,7 @@ class AuthService {
     if (!codeInCache || otpCode !== codeInCache) throw new UnauthorizedError(AuthMessage.OtpIncorrect);
 
     this.cache.del(key);
-    
+
     // check user exist
     let user = await this.userService.findUserByPhone(phone);
     if (!user) {
@@ -49,10 +50,16 @@ class AuthService {
       await this.UserRepository.save(user);
     }
 
+    // generate Access Token And Refresh Token
+
+    const AccessToken = JwtToken.generateAccessToken({ sub: user.id }, `${process.env.JWT_SECRET}`);
+    const RefreshToken = JwtToken.generateRefreshToken({ sub: user.id }, `${process.env.JWT_SECRET}`);
+
     //
     return {
       message: AuthMessageResponse.LoginSuccess,
-      accessToken: "sds --- ",
+      accessToken: AccessToken,
+      refreshToken: RefreshToken,
       userInfo: user,
     };
   }
