@@ -9,6 +9,8 @@ declare namespace NodeJS {
     DB_PASSWORD: string;
     DB_NAME: string;
 
-    JWT_SECRET:string
+    JWT_SECRET: string;
+
+    SMS_API_KEY: string;
   }
 }
