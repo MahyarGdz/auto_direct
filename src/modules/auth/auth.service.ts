@@ -1,10 +1,11 @@
-import { AuthMessage, AuthMessageResponse } from "../../common/enums";
-import { UnauthorizedError } from "../../common/error/app.error";
-import { UserService, UserRepository } from "../users";
-import { AuthLoginDto, AuthCheckOtpDto } from ".";
-import { TokenService, SMS } from "../../utils";
-import * as crypto from "crypto";
 import * as NodeCache from "node-cache";
+import * as crypto from "crypto";
+import { AuthMessage, AuthMessageResponse } from "../../common/enums";
+import { NotFoundError, UnauthorizedError } from "../../common/error/app.error";
+import { Token } from "../../common/types";
+import { UserService, UserRepository } from "../users";
+import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from ".";
+import { TokenService, SMS } from "../../utils";
 
 class AuthService {
   private tokenService: TokenService;
@@ -18,7 +19,6 @@ class AuthService {
     this.userRepository = userRepository;
     this.tokenService = new TokenService();
   }
-
   // Login Service
   public async LoginS(data: AuthLoginDto) {
     const { phone } = data;
@@ -32,7 +32,6 @@ class AuthService {
       phone: phone,
     };
   }
-
   // check-otp Service
   public async checkOtpS(data: AuthCheckOtpDto) {
     const { otpCode, phone } = data;
@@ -57,14 +56,22 @@ class AuthService {
       userInfo: user,
     };
   }
-
   // Save OtpCode in Cache
   public async saveOtpCodeInCache(otpCode: string, phone: string) {
     const key = `${phone}:Login:Otp`;
     this.cache.set(key, otpCode, 120);
     console.log(`${phone}:Login:Otp : ` + otpCode);
   }
-
+  // refersh  both token with refersh token
+  public async refreshTokensS(data: TokenDto) {
+    const { token } = data;
+    const { sub } = this.tokenService.verifyToken(token as Token);
+    const user = await this.userRepository.findOne({ where: { id: sub as string } });
+    if (!user) throw new NotFoundError("user not found by give id");
+    const tokens = this.tokenService.generateAuthTokens({ sub: user.id });
+    return tokens;
+  }
+  //generate otp code
   private generateOtpCode(): string {
     return crypto.randomInt(10000, 99999).toString();
   }

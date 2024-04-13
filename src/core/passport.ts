@@ -18,8 +18,6 @@ const jwtVerifyCallback: VerifyCallbackWithRequest = async (_req: Request, paylo
     if (!user) {
       return done(null, false);
     }
-    console.log(payload);
-
     done(null, user);
   } catch (error) {
     logger.error(error);

@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
-import { AuthService, AuthLoginDto, AuthCheckOtpDto } from ".";
 import { Logger } from "winston";
+import { AuthService, AuthLoginDto, AuthCheckOtpDto, TokenDto } from ".";
 
 class AuthController {
   constructor(
@@ -8,23 +8,27 @@ class AuthController {
     private logger: Logger,
   ) {}
 
-  async LoginC(req: Request, res: Response) {
+  public LoginC = async (req: Request, res: Response) => {
     this.logger.info("call LoginC()");
-
     const authDto: AuthLoginDto = req.body;
     const message = await this.authService.LoginS(authDto);
     // return authDto
     res.json(message);
-  }
+  };
 
-  async checkOtpC(req: Request, res: Response) {
+  public checkOtpC = async (req: Request, res: Response) => {
     this.logger.info("call checkOtpC()");
-
     const authCheckOtpDto: AuthCheckOtpDto = req.body;
     const message = await this.authService.checkOtpS(authCheckOtpDto);
     // return authDto
     res.json(message);
-  }
+  };
+  public refreshTokens = async (req: Request, res: Response) => {
+    this.logger.info("call refreshTokons()");
+    const token: TokenDto = req.body;
+    const message = await this.authService.refreshTokensS(token);
+    res.json(message);
+  };
 }
 
 export default AuthController;

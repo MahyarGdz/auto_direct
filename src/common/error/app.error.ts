@@ -37,7 +37,13 @@ export class NotFoundError extends ApiError {
 }
 
 export class InternalError extends ApiError {
-  constructor(message: string, details: string[] = []) {
-    super(500, message, details);
+  constructor(details: string[] = []) {
+    super(500, "somthing went wrong please try again later", details);
+  }
+}
+
+export class jwtExpiredErr extends ApiError {
+  constructor(details: string[] = []) {
+    super(403, "token has been expired!", details);
   }
 }
