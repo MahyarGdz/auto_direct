@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ApiError, NotFoundError } from "../common/error/app.error";
 import { logger } from "./logger";
-import { IErrorResponse } from "../common/interface/IErrorResponse";
+import { IErrorResponse } from "../common/interfaces/IErrorResponse";
 
 // eslint-disable-next-line no-unused-vars
 export function notFoundHandler(_req: Request, _res: Response, _next: NextFunction): void {

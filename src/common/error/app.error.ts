@@ -3,7 +3,7 @@ export class ApiError extends Error {
   readonly message: string;
   readonly details: string[];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(code: number, message: string, details: string[] = [], ...args: any[]) {
     super(message, ...args);
     this.code = code;
