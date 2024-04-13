@@ -5,8 +5,7 @@ import { NextFunction, Request, Response } from "express";
 const checkCallback = (req: Request, resolve: (value?: unknown) => void, reject: (error?: any) => void) => {
   return async (err: Error, user: any, info: any) => {
     if (err || info || !user) {
-      console.log(user);
-      return reject(new UnauthorizedError("User not authenticated"));
+      return reject(new UnauthorizedError("User not authorized"));
     }
     req.user = user;
     resolve();
