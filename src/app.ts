@@ -1,7 +1,8 @@
 import express, { Application } from "express";
+import passport from "passport";
 import cors from "cors";
 import morgan from "morgan";
-import { errorHandler, lastHandler, notFoundHandler } from "./core";
+import { errorHandler, lastHandler, notFoundHandler, jwtStrategy } from "./core";
 import AuthRouter from "./modules/auth/auth.routes";
 
 const app: Application = express();
@@ -12,10 +13,12 @@ app.use(cors({ origin: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+//initalize passport
+app.use(passport.initialize());
+passport.use("jwt", jwtStrategy);
 
 //add the route endpoint here
 app.use("/auth", AuthRouter);
-//
 //
 
 app.use(notFoundHandler);

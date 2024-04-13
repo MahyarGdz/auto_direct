@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import { BadRequestError } from "../common/error/app.error";
 
 const ValidatorMiddlewares = (validationSchema: any) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, _res: Response, next: NextFunction) => {
     try {
       // ---- get Body ----------
 

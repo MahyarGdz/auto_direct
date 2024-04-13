@@ -13,9 +13,8 @@ class AuthController {
 
     const authDto: AuthLoginDto = req.body;
     const message = await this.authService.LoginS(authDto);
-    res.json(message);
-
     // return authDto
+    res.json(message);
   }
 
   async checkOtpC(req: Request, res: Response) {
@@ -23,9 +22,8 @@ class AuthController {
 
     const authCheckOtpDto: AuthCheckOtpDto = req.body;
     const message = await this.authService.checkOtpS(authCheckOtpDto);
-    res.json(message);
-
     // return authDto
+    res.json(message);
   }
 }
 
