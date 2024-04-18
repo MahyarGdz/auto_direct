@@ -4,3 +4,4 @@ dist
 .prettierrc.js
 jest.config.js
 test
+commitlint.config.ts
