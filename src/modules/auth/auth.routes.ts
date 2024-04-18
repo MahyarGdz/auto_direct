@@ -14,10 +14,10 @@ const userService = new UserService(userRepo);
 const authService = new AuthService(userService, cache, userRepo);
 const authController = new AuthController(authService, logger);
 
-router.post("/login", ValidatorMiddlewares(AuthLoginDto), asyncWrapper(authController.LoginC));
-router.post("/check-otp", ValidatorMiddlewares(AuthCheckOtpDto), asyncWrapper(authController.checkOtpC));
-router.post("/refresh-token", ValidatorMiddlewares(TokenDto), asyncWrapper(authController.refreshTokens));
-router.get("/secret-path", auth(), async (req, res) => {
+router.post("/auth/login", ValidatorMiddlewares(AuthLoginDto), asyncWrapper(authController.LoginC));
+router.post("/auth/check-otp", ValidatorMiddlewares(AuthCheckOtpDto), asyncWrapper(authController.checkOtpC));
+router.post("/auht/refresh-token", ValidatorMiddlewares(TokenDto), asyncWrapper(authController.refreshTokens));
+router.get("/auth/secret-path", auth(), async (req, res) => {
   const { user } = req;
   return res.json({ user });
 });
