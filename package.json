@@ -23,8 +23,11 @@
   "lint-staged": {
     "**/*.ts": [
       "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-      "eslint . --fix"
+      "eslint . --fix",
+      "git add ."
     ]
+
+
   },
   "repository": {
     "type": "git",
