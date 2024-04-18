@@ -5,6 +5,7 @@ import http from "http";
 import app from "./app";
 
 import { appDataSrc, logger } from "./core";
+
 const server = http.createServer(app);
 const port = process.env.PORT || 3000;
 

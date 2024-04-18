@@ -26,8 +26,6 @@
       "eslint . --fix",
       "git add ."
     ]
-
-
   },
   "repository": {
     "type": "git",
