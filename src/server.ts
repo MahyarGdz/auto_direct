@@ -4,10 +4,11 @@ dotenv.config();
 import http from "http";
 import app from "./app";
 
-import { appDataSrc, logger } from "./core";
+import { appDataSrc, Logger } from "./core";
 const server = http.createServer(app);
 const port = process.env.PORT || 3000;
 
+const logger = new Logger();
 async function bootStrap(): Promise<void> {
   try {
     await appDataSrc.initialize();
@@ -16,7 +17,7 @@ async function bootStrap(): Promise<void> {
       logger.info(`server is starting on http://localhost:${port}`);
     });
   } catch (error) {
-    logger.error(error);
+    logger.error("Error starting the server", error);
     process.exit(1);
   }
 }

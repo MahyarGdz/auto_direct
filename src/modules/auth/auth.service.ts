@@ -1,10 +1,9 @@
 import * as NodeCache from "node-cache";
 import * as crypto from "crypto";
-import { AuthMessage, AuthMessageResponse } from "../../common/enums";
-import { NotFoundError, UnauthorizedError } from "../../common/error/app.error";
-import { Token } from "../../common/types";
+import { NotFoundError, UnauthorizedError } from "../../core/";
+import { AuthMessage, AuthMessageResponse, type Token } from "../../common";
+import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./dto";
 import { UserService, UserRepository } from "../users";
-import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from ".";
 import { TokenService, SMS } from "../../utils";
 
 class AuthService {
@@ -77,4 +76,4 @@ class AuthService {
   }
 }
 
-export default AuthService;
+export { AuthService };

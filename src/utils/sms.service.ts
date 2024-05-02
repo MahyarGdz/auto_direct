@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { BadRequestError } from "../common/error/app.error";
-import { ISmsResponse } from "../common/interfaces/IsmsResponse";
+import { BadRequestError } from "../core/app/app.errors";
+import { ISmsResponse } from "../common";
 
 export class SMS {
   private static ENDPOINT = process.env.SMS_ENDPOINT_VERIFY || "";

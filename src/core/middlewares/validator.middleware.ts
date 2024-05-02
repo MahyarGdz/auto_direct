@@ -1,7 +1,7 @@
 import { plainToInstance } from "class-transformer";
 import { ValidationError, validate } from "class-validator";
 import { NextFunction, Request, Response } from "express";
-import { BadRequestError } from "../common/error/app.error";
+import { BadRequestError } from "../app/app.errors";
 
 const ValidatorMiddlewares = (validationSchema: any) => {
   return async (req: Request, _res: Response, next: NextFunction) => {
@@ -28,4 +28,4 @@ const ValidatorMiddlewares = (validationSchema: any) => {
   };
 };
 
-export default ValidatorMiddlewares;
+export { ValidatorMiddlewares };
