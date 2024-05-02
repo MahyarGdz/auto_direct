@@ -1,13 +1,16 @@
 import express, { Router } from "express";
 import NodeCache from "node-cache";
-import { asyncWrapper, logger } from "../../core";
-import { AuthController, AuthService, AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./";
+import { asyncWrapper, Logger } from "../../core";
+import { AuthController } from "./auth.contoller";
+import { AuthService } from "./auth.service";
+import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./dto";
 import { UserService, UserRepository } from "../users";
 import { UsersEntity } from "../../models";
-import { ValidatorMiddlewares, auth } from "../../middlewares";
+import { ValidatorMiddlewares, auth } from "../../core";
 
 const router: Router = express.Router();
 
+const logger = new Logger();
 const userRepo = new UserRepository(UsersEntity);
 const cache = new NodeCache();
 const userService = new UserService(userRepo);

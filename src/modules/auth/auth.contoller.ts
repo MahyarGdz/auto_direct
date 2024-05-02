@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
-import { Logger } from "winston";
-import { AuthService, AuthLoginDto, AuthCheckOtpDto, TokenDto } from ".";
+import { Logger } from "../../core";
+import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./dto";
+import { AuthService } from "./auth.service";
 
 class AuthController {
   constructor(
@@ -31,4 +32,4 @@ class AuthController {
   };
 }
 
-export default AuthController;
+export { AuthController };

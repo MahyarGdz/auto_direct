@@ -1,10 +1,11 @@
 import { Request } from "express";
 import { Strategy as JwtStrategy, ExtractJwt, VerifyCallbackWithRequest, StrategyOptionsWithRequest } from "passport-jwt";
-import { AuthTokenPayload } from "../common/types";
-import { UserRepository } from "../modules/users";
-import { UsersEntity } from "../models";
-import { logger } from "./logger";
+import { AuthTokenPayload } from "../../common";
+import { UserRepository } from "../../modules/users";
+import { UsersEntity } from "../../models";
+import { Logger } from "../logging/logger";
 
+const logger = new Logger();
 const userRepository = new UserRepository(UsersEntity);
 
 const jwtOptions: StrategyOptionsWithRequest = {

@@ -1,5 +1,5 @@
 import passport from "passport";
-import { UnauthorizedError } from "../common/error/app.error";
+import { UnauthorizedError } from "../app/app.errors";
 import { NextFunction, Request, Response } from "express";
 
 const checkCallback = (req: Request, resolve: (value?: unknown) => void, reject: (error?: any) => void) => {

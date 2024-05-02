@@ -1,8 +1,9 @@
 import jwt, { TokenExpiredError, SignOptions } from "jsonwebtoken";
-import { AuthTokenPayload, Token } from "../common/types";
-import { logger } from "../core";
-import { jwtExpiredErr } from "../common/error/app.error";
+import { AuthTokenPayload, Token } from "../common";
+import { Logger } from "../core";
+import { jwtExpiredErr } from "../core/app/app.errors";
 
+const logger = new Logger();
 export class TokenService {
   private static jwtSecret: string = process.env.JWT_SECRET || "";
 

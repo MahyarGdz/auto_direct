@@ -8,7 +8,7 @@ import morgan from "morgan";
 
 import { errorHandler, lastHandler, notFoundHandler, jwtStrategy } from "./core";
 import AuthRouter from "./modules/auth/auth.routes";
-import { IAppOptions } from "./common/interfaces/IAppOptions";
+import { IAppOptions } from "./common/interfaces/app/IAppOptions";
 
 export class ExpressApp {
   private static instance: ExpressApp;
