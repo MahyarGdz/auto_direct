@@ -8,10 +8,14 @@ import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import morgan from "morgan";
+
 import { options as AppOptions } from "./core/config/app.config";
 import { errorHandler, lastHandler, notFoundHandler, jwtStrategy } from "./core";
-
 import { appDataSrc, Logger } from "./core";
+import { AppRouter } from "./core/app/app.router";
+
+import container from "./IOC/ioc.config";
+
 const port = process.env.PORT || 3000;
 
 const logger = new Logger();
@@ -51,7 +55,8 @@ async function bootStrap(): Promise<void> {
     /**
      * configure app routes
      */
-    // app.use("/api/v1", router);
+    const appRouter = container.get(AppRouter);
+    appRouter.initRoutes(app);
     /**
      * configure error handler
      */
@@ -69,7 +74,9 @@ async function bootStrap(): Promise<void> {
       logger.info(`server is starting on http://localhost:${port}`);
     });
   } catch (error) {
-    logger.error("Error starting the server", error);
+    // logger.error("Error starting the server", error);
+    console.log(error);
+
     process.exit(1);
   }
 }

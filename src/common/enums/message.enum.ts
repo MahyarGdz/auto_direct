@@ -1,7 +1,4 @@
 export enum AuthMessage {
-  OtpIncorrect = "کد اشتباه می باشد",
-}
-
-export enum AuthMessageResponse {
-  LoginSuccess = "با موفقیت وارد شدید",
+  OtpIncorrect = "Incorrect OTP code",
+  LoginSuccess = "Logged in successfully",
 }

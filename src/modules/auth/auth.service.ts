@@ -1,25 +1,26 @@
-import * as NodeCache from "node-cache";
+import NodeCache from "node-cache";
 import * as crypto from "crypto";
+import { inject, injectable } from "inversify";
 import { NotFoundError, UnauthorizedError } from "../../core/";
-import { AuthMessage, AuthMessageResponse, type Token } from "../../common";
+import { AuthMessage, ITokenService, type Token } from "../../common";
 import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./dto";
-import { UserService, UserRepository } from "../users";
-import { TokenService, SMS } from "../../utils";
+import { SMS } from "../../utils";
+import { IAuthService } from "./interfaces/IAuthService";
+import { IOCTYPES } from "../../IOC/ioc.types";
+import { UserRepository } from "../users/user.repository";
 
-class AuthService {
-  private tokenService: TokenService;
-  private userService: UserService;
+@injectable()
+class AuthService implements IAuthService {
+  @inject(IOCTYPES.TokenService) private tokenService: ITokenService;
   private cache: NodeCache;
   private readonly userRepository: UserRepository;
 
-  constructor(userService: UserService, cache: NodeCache, userRepository: UserRepository) {
-    this.userService = userService;
-    this.cache = cache;
-    this.userRepository = userRepository;
-    this.tokenService = new TokenService();
+  constructor() {
+    this.cache = new NodeCache();
+    this.userRepository = new UserRepository();
   }
   // Login Service
-  public async LoginS(data: AuthLoginDto) {
+  public async loginS(data: AuthLoginDto) {
     const { phone } = data;
     const otpCode = this.generateOtpCode();
     // send otp to user
@@ -40,7 +41,7 @@ class AuthService {
     if (!codeInCache || otpCode !== codeInCache) throw new UnauthorizedError(AuthMessage.OtpIncorrect);
     this.cache.del(key);
     // check user exist
-    let user = await this.userService.findUserByPhone(phone);
+    let user = await this.userRepository.findUserByPhone(phone);
     if (!user) {
       user = this.userRepository.create({ phone: phone, fullname: `U-${phone}` });
       await this.userRepository.save(user);
@@ -49,7 +50,7 @@ class AuthService {
     const { accessToken, refreshToken } = this.tokenService.generateAuthTokens({ sub: user.id });
     //
     return {
-      message: AuthMessageResponse.LoginSuccess,
+      message: AuthMessage.LoginSuccess,
       accessToken,
       refreshToken,
       userInfo: user,
@@ -71,7 +72,7 @@ class AuthService {
     return tokens;
   }
   //generate otp code
-  private generateOtpCode(): string {
+  public generateOtpCode(): string {
     return crypto.randomInt(10000, 99999).toString();
   }
 }

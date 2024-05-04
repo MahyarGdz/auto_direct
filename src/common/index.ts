@@ -1,6 +1,7 @@
 export { AuthTokenPayload, Token } from "./types/jwtToken.type";
-export { IAppOptions } from "./interfaces/app/IAppOptions";
-export { IErrorResponse } from "./interfaces/response/IErrorResponse";
-export { ISmsResponse } from "./interfaces/response/IsmsResponse";
-export { ILogger } from "./interfaces/app/ILogger";
-export { AuthMessage, AuthMessageResponse } from "./enums/message.enum";
+export { IAppOptions } from "./interfaces/IAppOptions";
+export { IErrorResponse } from "./interfaces/IErrorResponse";
+export { ISmsResponse } from "./interfaces/IsmsResponse";
+export { ILogger } from "./interfaces/ILogger";
+export { ITokenService } from "./interfaces/ITokenService";
+export { AuthMessage } from "./enums/message.enum";
