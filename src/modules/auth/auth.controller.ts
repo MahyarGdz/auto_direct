@@ -1,18 +1,20 @@
 import { Response, Request } from "express";
-import { Logger } from "../../core";
 import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./dto";
 import { AuthService } from "./auth.service";
+import { inject, injectable } from "inversify";
+import { IOCTYPES } from "../../IOC/ioc.types";
+import { ILogger } from "../../common";
+import { IAuthController } from "./interfaces/IAuthController";
 
-class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private logger: Logger,
-  ) {}
+@injectable()
+class AuthController implements IAuthController {
+  @inject(IOCTYPES.AuthService) private authService: AuthService;
+  @inject(IOCTYPES.Logger) private logger: ILogger;
 
   public LoginC = async (req: Request, res: Response) => {
     this.logger.info("call LoginC()");
     const authDto: AuthLoginDto = req.body;
-    const message = await this.authService.LoginS(authDto);
+    const message = await this.authService.loginS(authDto);
     // return authDto
     res.json(message);
   };

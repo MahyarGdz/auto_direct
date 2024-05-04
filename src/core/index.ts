@@ -1,6 +1,5 @@
 export { appDataSrc } from "./app/app.datasource";
 export { Logger } from "./logging/logger";
-export { asyncWrapper } from "../utils/asyncWrapper";
 export { notFoundHandler, errorHandler, lastHandler } from "./app/app.errorHandler";
 export { jwtStrategy } from "./config/passport.config";
 export {

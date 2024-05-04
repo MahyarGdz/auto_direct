@@ -1,13 +1,7 @@
-import { UsersEntity } from "../../models";
-import { UserRepository } from ".";
+import { IUserService } from "./interfaces/IUserService";
+import { injectable } from "inversify";
 
-class UserService {
-  constructor(private readonly UserRepository: UserRepository) {}
+@injectable()
+class UserService implements IUserService {}
 
-  async findUserByPhone(phone: string): Promise<UsersEntity | null> {
-    const user = await this.UserRepository.findOne({ where: { phone: phone } });
-    return user;
-  }
-}
-
-export default UserService;
+export { UserService };

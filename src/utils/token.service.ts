@@ -1,18 +1,20 @@
 import jwt, { TokenExpiredError, SignOptions } from "jsonwebtoken";
-import { AuthTokenPayload, Token } from "../common";
-import { Logger } from "../core";
+import { AuthTokenPayload, ILogger, ITokenService, Token } from "../common";
 import { jwtExpiredErr } from "../core/app/app.errors";
+import { inject, injectable } from "inversify";
+import { IOCTYPES } from "../IOC/ioc.types";
 
-const logger = new Logger();
-export class TokenService {
+@injectable()
+export class TokenService implements ITokenService {
   private static jwtSecret: string = process.env.JWT_SECRET || "";
+  @inject(IOCTYPES.Logger) private logger: ILogger;
 
-  private generateToken(payload: AuthTokenPayload, option: SignOptions) {
+  public _generateToken(payload: AuthTokenPayload, option: SignOptions) {
     return jwt.sign(payload, TokenService.jwtSecret, { ...option });
   }
   public generateAuthTokens(payload: AuthTokenPayload) {
-    const accessToken = this.generateToken(payload, { expiresIn: "15m" });
-    const refreshToken = this.generateToken(payload, { expiresIn: "1h" });
+    const accessToken = this._generateToken(payload, { expiresIn: "15m" });
+    const refreshToken = this._generateToken(payload, { expiresIn: "1h" });
     const tokens = {
       accessToken: {
         token: accessToken,
@@ -31,7 +33,7 @@ export class TokenService {
       return decoded;
     } catch (error) {
       if (error instanceof TokenExpiredError) throw new jwtExpiredErr();
-      logger.error(error);
+      this.logger.error(error);
       throw error;
     }
   }
