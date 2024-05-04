@@ -1,9 +1,10 @@
 import winston, { Logger as WinstonLogger } from "winston";
 import { injectable } from "inversify";
+import { ILogger } from "../../common";
 const { combine, timestamp, json, align, colorize, simple, printf } = winston.format;
 
 @injectable()
-export class Logger {
+export class Logger implements ILogger {
   logger: WinstonLogger;
 
   constructor() {
