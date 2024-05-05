@@ -6,4 +6,5 @@ export const IOCTYPES = {
   UserService: Symbol.for("UserService"),
   UserController: Symbol.for("UserController"),
   UserRepository: Symbol.for("UserRepository"),
+  CacheService: Symbol.for("CacheService"),
 };

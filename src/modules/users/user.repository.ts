@@ -11,6 +11,7 @@ class UserRepository extends Repository<UsersEntity> {
     return user;
   }
 }
+
 function createUserRepository(): UserRepository {
   return new UserRepository();
 }
