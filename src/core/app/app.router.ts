@@ -15,15 +15,16 @@ export class AppRouter {
 
   private getController(context: BaseController, func: string) {
     console.log(this.authController);
+    console.log("adasd");
 
     return asyncWrapper(context[func]);
   }
 
   public initRoutes(app: Application) {
     app.post("/api/auth/login", ValidatorMiddlewares(AuthLoginDto), this.getController(this.authController, "loginC"));
-    app.post("/auth/check-otp", ValidatorMiddlewares(AuthCheckOtpDto), this.getController(this.authController, "checkOtpC"));
-    app.post("/auht/refresh-token", ValidatorMiddlewares(TokenDto), this.getController(this.authController, "refreshTokens"));
-    app.get("/auth/secret-path", auth(), async (req, res) => {
+    app.post("/api/auth/check-otp", ValidatorMiddlewares(AuthCheckOtpDto), this.getController(this.authController, "checkOtpC"));
+    app.post("/api/auth/refresh-token", ValidatorMiddlewares(TokenDto), this.getController(this.authController, "refreshTokens"));
+    app.get("/api/auth/secret-path", auth(), async (req, res) => {
       const { user } = req;
       return res.json({ user });
     });

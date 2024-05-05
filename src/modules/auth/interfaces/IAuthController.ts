@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 export interface IAuthController {
-  LoginC: (req: Request, res: Response) => Promise<void>;
+  loginC: (req: Request, res: Response) => Promise<void>;
   checkOtpC: (req: Request, res: Response) => Promise<void>;
   refreshTokens: (req: Request, res: Response) => Promise<void>;
 }
