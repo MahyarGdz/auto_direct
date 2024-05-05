@@ -1,10 +1,9 @@
-import NodeCache from "node-cache";
 import * as crypto from "crypto";
 import { inject, injectable } from "inversify";
 import { NotFoundError, UnauthorizedError } from "../../core/";
 import { AuthMessage, ITokenService, type Token } from "../../common";
 import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./dto";
-import { SMS } from "../../utils";
+import { SMS, CacheService } from "../../utils";
 import { IAuthService } from "./interfaces/IAuthService";
 import { IOCTYPES } from "../../IOC/ioc.types";
 import { UserRepository } from "../users/user.repository";
@@ -13,11 +12,8 @@ import { UserRepository } from "../users/user.repository";
 class AuthService implements IAuthService {
   @inject(IOCTYPES.TokenService) private tokenService: ITokenService;
   @inject(IOCTYPES.UserRepository) private userRepository: UserRepository;
-  private cache: NodeCache;
+  @inject(IOCTYPES.CacheService) private cache: CacheService;
 
-  constructor() {
-    this.cache = new NodeCache();
-  }
   // Login Service
   public async loginS(data: AuthLoginDto) {
     const { phone } = data;
