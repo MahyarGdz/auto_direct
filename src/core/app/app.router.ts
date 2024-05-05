@@ -14,9 +14,6 @@ export class AppRouter {
   @inject(IOCTYPES.AuthController) private authController: IAuthController;
 
   private getController(context: BaseController, func: string) {
-    console.log(this.authController);
-    console.log("adasd");
-
     return asyncWrapper(context[func]);
   }
 

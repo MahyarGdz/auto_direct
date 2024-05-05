@@ -8,6 +8,11 @@ import { IAuthService } from "../modules/auth/interfaces/IAuthService";
 import { AuthService } from "../modules/auth/auth.service";
 import { AppRouter } from "../core/app/app.router";
 import { TokenService } from "../utils";
+import { IUserService } from "../modules/users/interfaces/IUserService";
+import { UserService } from "../modules/users/user.service";
+import { UserController } from "../modules/users/user.contoller";
+import { IUserController } from "../modules/users/interfaces/IUserController";
+import { UserRepository, createUserRepository } from "../modules/users/user.repository";
 
 const container = new Container({ defaultScope: "Singleton" });
 
@@ -17,5 +22,8 @@ container.bind<IAuthController>(IOCTYPES.AuthController).to(AuthController);
 container.bind<IAuthService>(IOCTYPES.AuthService).to(AuthService);
 container.bind<ITokenService>(IOCTYPES.TokenService).to(TokenService);
 container.bind<ILogger>(IOCTYPES.Logger).to(Logger);
+container.bind<IUserController>(IOCTYPES.UserController).to(UserController);
+container.bind<IUserService>(IOCTYPES.UserService).to(UserService);
+container.bind<UserRepository>(IOCTYPES.UserRepository).toDynamicValue(createUserRepository);
 
 export default container;
