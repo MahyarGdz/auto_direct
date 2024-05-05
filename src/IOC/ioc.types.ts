@@ -4,4 +4,6 @@ export const IOCTYPES = {
   AuthService: Symbol.for("AuthService"),
   TokenService: Symbol.for("TokenService"),
   UserService: Symbol.for("UserService"),
+  UserController: Symbol.for("UserController"),
+  UserRepository: Symbol.for("UserRepository"),
 };

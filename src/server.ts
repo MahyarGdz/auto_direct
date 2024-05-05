@@ -15,6 +15,8 @@ import { appDataSrc, Logger } from "./core";
 import { AppRouter } from "./core/app/app.router";
 
 import container from "./IOC/ioc.config";
+import { IOCTYPES } from "./IOC/ioc.types";
+console.log(container.get(IOCTYPES.UserRepository));
 
 const port = process.env.PORT || 3000;
 

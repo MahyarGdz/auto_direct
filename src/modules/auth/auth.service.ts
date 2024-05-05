@@ -12,12 +12,11 @@ import { UserRepository } from "../users/user.repository";
 @injectable()
 class AuthService implements IAuthService {
   @inject(IOCTYPES.TokenService) private tokenService: ITokenService;
+  @inject(IOCTYPES.UserRepository) private userRepository: UserRepository;
   private cache: NodeCache;
-  private readonly userRepository: UserRepository;
 
   constructor() {
     this.cache = new NodeCache();
-    this.userRepository = new UserRepository();
   }
   // Login Service
   public async loginS(data: AuthLoginDto) {
