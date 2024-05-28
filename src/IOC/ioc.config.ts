@@ -1,5 +1,5 @@
-import { Container } from "inversify";
-import { Logger } from "../core";
+import { AsyncContainerModule } from "inversify";
+import { Logger, Authenticate } from "../core";
 import { IOCTYPES } from "./ioc.types";
 import { ILogger, ITokenService } from "../common";
 import { AuthController } from "../modules/auth/auth.controller";
@@ -15,22 +15,23 @@ import { IUserController } from "../modules/users/interfaces/IUserController";
 import { UserRepository, createUserRepository } from "../modules/users/user.repository";
 import { CacheService, createNodeCache } from "../utils/cache.service";
 
-const container = new Container({ defaultScope: "Singleton" });
+const containerModules = new AsyncContainerModule(async (bind) => {
+  bind(AppRouter).to(AppRouter);
+  bind(Authenticate).to(Authenticate);
 
-container.bind(AppRouter).to(AppRouter);
+  //controller
+  bind<IAuthController>(IOCTYPES.AuthController).to(AuthController);
+  bind<IUserController>(IOCTYPES.UserController).to(UserController);
 
-//controller
-container.bind<IAuthController>(IOCTYPES.AuthController).to(AuthController);
-container.bind<IUserController>(IOCTYPES.UserController).to(UserController);
+  //services
+  bind<IAuthService>(IOCTYPES.AuthService).to(AuthService);
+  bind<ITokenService>(IOCTYPES.TokenService).to(TokenService);
+  bind<ILogger>(IOCTYPES.Logger).to(Logger);
+  bind<IUserService>(IOCTYPES.UserService).to(UserService);
+  bind<CacheService>(IOCTYPES.CacheService).toDynamicValue(createNodeCache);
 
-//services
-container.bind<IAuthService>(IOCTYPES.AuthService).to(AuthService);
-container.bind<ITokenService>(IOCTYPES.TokenService).to(TokenService);
-container.bind<ILogger>(IOCTYPES.Logger).to(Logger);
-container.bind<IUserService>(IOCTYPES.UserService).to(UserService);
-container.bind<CacheService>(IOCTYPES.CacheService).toDynamicValue(createNodeCache);
+  //repositories
+  bind<UserRepository>(IOCTYPES.UserRepository).toDynamicValue(createUserRepository);
+});
 
-//repositories
-container.bind<UserRepository>(IOCTYPES.UserRepository).toDynamicValue(createUserRepository);
-
-export default container;
+export { containerModules };

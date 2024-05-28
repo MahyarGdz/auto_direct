@@ -1,7 +1,7 @@
 export { appDataSrc } from "./app/app.datasource";
 export { Logger } from "./logging/logger";
 export { notFoundHandler, errorHandler, lastHandler } from "./app/app.errorHandler";
-export { jwtStrategy } from "./config/passport.config";
+export { Authenticate } from "./config/authenticate.config";
 export {
   ApiError,
   NotFoundError,
@@ -12,4 +12,4 @@ export {
   jwtExpiredErr,
 } from "./app/app.errors";
 export { ValidatorMiddlewares } from "./middlewares/validator.middleware";
-export { auth } from "./middlewares/auth.middleware";
+export { authJwt, oAuth, oAuthCallback } from "./middlewares/auth.middleware";
