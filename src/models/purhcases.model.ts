@@ -1,13 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  Relation,
-} from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, Relation } from "typeorm";
 import { UsersEntity } from "./users.model";
 import { PlansEntity } from "./plans.model";
 import { PurchaseStatus } from "../common/enums/status.enum";

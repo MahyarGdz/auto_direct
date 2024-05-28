@@ -1,18 +1,21 @@
 import * as crypto from "crypto";
 import { inject, injectable } from "inversify";
 import { NotFoundError, UnauthorizedError } from "../../core/";
-import { AuthMessage, ITokenService, type Token } from "../../common";
+import { AuthMessage, AuthTokenPayload, ILogger, ITokenService, type Token } from "../../common";
 import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./dto";
 import { SMS, CacheService } from "../../utils";
 import { IAuthService } from "./interfaces/IAuthService";
 import { IOCTYPES } from "../../IOC/ioc.types";
 import { UserRepository } from "../users/user.repository";
+import { VerifiedCallback } from "passport-jwt";
+import { Profile } from "passport-facebook";
 
 @injectable()
 class AuthService implements IAuthService {
   @inject(IOCTYPES.TokenService) private tokenService: ITokenService;
   @inject(IOCTYPES.UserRepository) private userRepository: UserRepository;
   @inject(IOCTYPES.CacheService) private cache: CacheService;
+  @inject(IOCTYPES.Logger) private logger: ILogger;
 
   // Login Service
   public async loginS(data: AuthLoginDto) {
@@ -69,6 +72,36 @@ class AuthService implements IAuthService {
   //generate otp code
   public generateOtpCode(): string {
     return crypto.randomInt(10000, 99999).toString();
+  }
+
+  public async jwt(payload: AuthTokenPayload, done: VerifiedCallback) {
+    try {
+      const user = await this.userRepository.findOne({ where: { id: payload.sub } });
+      if (!user) {
+        return done(null, false);
+      }
+      done(null, user);
+    } catch (error) {
+      this.logger.error(error);
+      done(error, false);
+    }
+  }
+
+  async oAuth(token: string, refreshToken: string, profile: Profile, done: VerifiedCallback): Promise<void> {
+    try {
+      console.log(token);
+      console.log("=========================");
+
+      console.log(refreshToken);
+      console.log("=========================");
+
+      console.log(profile);
+      console.log("=========================");
+
+      done(null, profile);
+    } catch (err) {
+      return done(err, false);
+    }
   }
 }
 

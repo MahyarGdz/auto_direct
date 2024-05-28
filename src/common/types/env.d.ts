@@ -14,5 +14,9 @@ declare namespace NodeJS {
     SMS_API_KEY: string;
     SMS_ENDPOINT_VERIFY: string;
     SMS_TEMPLATEID: string;
+
+    FB_CLIENT_ID: string;
+    FB_CLIENT_SEC: string;
+    FB_CALLBACK: string;
   }
 }
