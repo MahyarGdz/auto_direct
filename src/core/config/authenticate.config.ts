@@ -19,7 +19,7 @@ class Authenticate {
     callbackURL: process.env.FB_CALLBACK || "",
     scope: ["email", "public_profile", "instagram_basic"],
     profileFields: ["id", "link", "email", "name", "picture", "address"],
-    graphAPIVersion: "v19.0",
+    graphAPIVersion: "v20.0",
   };
   public initialize = () => {
     return passport.initialize();

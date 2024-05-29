@@ -74,7 +74,8 @@ class AuthService implements IAuthService {
     return crypto.randomInt(10000, 99999).toString();
   }
 
-  public async jwt(payload: AuthTokenPayload, done: VerifiedCallback) {
+  // use arrow function to avoid lossing this context when pass the method to passport startegy
+  public jwt = async (payload: AuthTokenPayload, done: VerifiedCallback) => {
     try {
       const user = await this.userRepository.findOne({ where: { id: payload.sub } });
       if (!user) {
@@ -85,9 +86,9 @@ class AuthService implements IAuthService {
       this.logger.error(error);
       done(error, false);
     }
-  }
+  };
 
-  async oAuth(token: string, refreshToken: string, profile: Profile, done: VerifiedCallback): Promise<void> {
+  public oAuth = async (token: string, refreshToken: string, profile: Profile, done: VerifiedCallback): Promise<void> => {
     try {
       console.log(token);
       console.log("=========================");
@@ -102,7 +103,7 @@ class AuthService implements IAuthService {
     } catch (err) {
       return done(err, false);
     }
-  }
+  };
 }
 
 export { AuthService };

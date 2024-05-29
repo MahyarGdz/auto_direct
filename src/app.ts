@@ -7,12 +7,12 @@ import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import { Container } from "inversify";
 import morgan from "morgan";
-import { authenticate } from "passport";
 import { InversifyExpressServer } from "inversify-express-utils";
 
-import { options as AppOptions } from "./core/config/app.config";
-import { Logger, errorHandler, lastHandler, notFoundHandler } from "./core";
+import { Logger, errorHandler, lastHandler, notFoundHandler, appOptions, Authenticate } from "./core";
 import { containerModules } from "./IOC/ioc.config";
+//import controller to generate metadata
+import "./modules/auth/auth.controller";
 
 const logger = new Logger();
 
@@ -40,11 +40,13 @@ export class ExpressApp {
         logger.info(`server is starting on http://localhost:${this._port}`);
       });
   }
+
   private catchError(app: Application) {
     app.use(notFoundHandler);
     app.use(errorHandler);
     app.use(lastHandler);
   }
+
   private setMiddleware(app: Application) {
     //remove x-powered-by header from response
     app.disable("x-powered-by");
@@ -62,18 +64,19 @@ export class ExpressApp {
     /**
      * configure helmet
      */
-    app.use(helmet(AppOptions.helmet));
+    app.use(helmet(appOptions.helmet));
     /**
      * configure cors
      */
-    app.use(cors(AppOptions.cors));
+    app.use(cors(appOptions.cors));
     /**
      * configure rate limit
      */
-    app.use(`/api/`, rateLimit(AppOptions.rate));
+    app.use(`/api/`, rateLimit(appOptions.rate));
     /**
      * configure passport
      */
+    const authenticate = this._container.get(Authenticate);
     app.use(authenticate.initialize());
     authenticate.plug();
   }

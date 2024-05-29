@@ -1,31 +1,31 @@
-import { plainToInstance } from "class-transformer";
+import { ClassConstructor, plainToInstance } from "class-transformer";
 import { ValidationError, validate } from "class-validator";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { BadRequestError } from "../app/app.errors";
+import { injectable } from "inversify";
 
-const ValidatorMiddlewares = (validationSchema: any) => {
-  return async (req: Request, _res: Response, next: NextFunction) => {
-    try {
-      // ---- get Body ----------
+@injectable()
+export class ValidationMiddleware {
+  static validateInput(DTO: ClassConstructor<any>): RequestHandler {
+    return async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
+      try {
+        const body = req.body;
 
-      const body = req.body;
+        const validationClass = plainToInstance(DTO, body);
 
-      const validationClass = plainToInstance(validationSchema, body);
+        // Validate DTO object
+        const errors: ValidationError[] = await validate(validationClass, {});
 
-      // ------ validation -------------
-      const errors: ValidationError[] = await validate(validationClass, {});
+        if (errors.length > 0) {
+          const errorMsg = errors.map((error) => Object.values(error.constraints!)).flat();
 
-      if (errors.length > 0) {
-        const errorMsg = errors.map((error) => Object.values(error.constraints!)).flat();
-        throw new BadRequestError("bad Request", errorMsg);
-        // res.status(400).send({ errors: errors });
-      } else {
-        next();
+          throw new BadRequestError("bad Request", errorMsg);
+        } else {
+          next();
+        }
+      } catch (error) {
+        next(error);
       }
-    } catch (error) {
-      next(error);
-    }
-  };
-};
-
-export { ValidatorMiddlewares };
+    };
+  }
+}

@@ -22,7 +22,7 @@ export class TokenService implements ITokenService {
       },
       refreshToken: {
         token: refreshToken,
-        expires: "1h",
+        expires: "1d",
       },
     };
     return tokens;

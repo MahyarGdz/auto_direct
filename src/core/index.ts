@@ -11,5 +11,6 @@ export {
   InternalError,
   jwtExpiredErr,
 } from "./app/app.errors";
-export { ValidatorMiddlewares } from "./middlewares/validator.middleware";
-export { authJwt, oAuth, oAuthCallback } from "./middlewares/auth.middleware";
+export { ValidationMiddleware } from "./middlewares/validator.middleware";
+export { Guard } from "./middlewares/guard.middleware";
+export { appOptions } from "./config/app.config";
