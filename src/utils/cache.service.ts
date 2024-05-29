@@ -1,7 +1,7 @@
 import NodeCache from "node-cache";
 
-function createNodeCache(): NodeCache {
-  return new NodeCache();
+function createNodeCache(): CacheService {
+  return new CacheService();
 }
 
 class CacheService extends NodeCache {}

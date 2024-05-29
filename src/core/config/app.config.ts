@@ -1,6 +1,6 @@
 import { IAppOptions } from "../../common";
 
-export const options: IAppOptions = {
+export const appOptions: IAppOptions = {
   cors: { origin: true, credentials: true, optionsSuccessStatus: 204 },
   helmet: {
     //   contentSecurityPolicy: {

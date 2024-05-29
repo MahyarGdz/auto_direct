@@ -1,6 +1,6 @@
-import { injectable } from "inversify";
-import { IUserController } from "./interfaces/IUserController";
-@injectable()
-class UserController implements IUserController {}
+import { controller } from "inversify-express-utils";
+
+@controller("/users")
+class UserController {}
 
 export { UserController };
