@@ -1,41 +1,39 @@
 import { Response, Request } from "express";
-import { controller, httpGet, httpPost, request, response } from "inversify-express-utils";
+import { controller, httpGet, httpPost, request, requestBody, response } from "inversify-express-utils";
 import { inject } from "inversify";
 
 import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./dto";
 import { IOCTYPES } from "../../IOC/ioc.types";
-import { ILogger, baseController } from "../../common";
+import { ILogger, Controller, HttpStatus } from "../../common";
 import { IAuthService } from "./interfaces/IAuthService";
 import { ValidationMiddleware, Guard } from "../../core";
 
 @controller("/auth")
-class AuthController extends baseController {
+class AuthController extends Controller {
   @inject(IOCTYPES.AuthService) private authService: IAuthService;
   @inject(IOCTYPES.Logger) private logger: ILogger;
 
   @httpPost("/login", ValidationMiddleware.validateInput(AuthLoginDto))
-  public async loginC(@request() req: Request, @response() res: Response) {
+  public async loginC(@requestBody() LoginData: AuthLoginDto) {
     this.logger.info("call loginC()");
-    const authDto: AuthLoginDto = req.body;
-    const message = await this.authService.loginS(authDto);
+    const message = await this.authService.loginS(LoginData);
     // return authDto
-    res.json(message);
+    return this.response(message, HttpStatus.Ok);
   }
 
   @httpPost("/check-otp", ValidationMiddleware.validateInput(AuthCheckOtpDto))
-  public async checkOtpC(@request() req: Request, @response() res: Response) {
+  public async checkOtpC(@requestBody() data: AuthCheckOtpDto) {
     this.logger.info("call checkOtpC()");
-    const authCheckOtpDto: AuthCheckOtpDto = req.body;
-    const message = await this.authService.checkOtpS(authCheckOtpDto);
+    const message = await this.authService.checkOtpS(data);
     // return authDto
-    res.json(message);
+    return this.response(message, HttpStatus.Created);
   }
   @httpPost("/refresh-token", ValidationMiddleware.validateInput(TokenDto))
-  public async refreshTokens(@request() req: Request, @response() res: Response) {
+  public async refreshTokens(@requestBody() token: TokenDto) {
     this.logger.info("call refreshTokons()");
-    const token: TokenDto = req.body;
     const message = await this.authService.refreshTokensS(token);
-    res.json(message);
+    //return new access token
+    return this.response(message, HttpStatus.Created);
   }
 
   @httpGet("/secret", Guard.authJwt())
