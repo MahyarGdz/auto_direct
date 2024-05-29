@@ -10,8 +10,9 @@ export { ITokenService } from "./interfaces/ITokenService";
 //enums
 export { AuthMessage } from "./enums/message.enum";
 export { HttpStatus } from "./enums/httpStatus.enum";
+export { HttpMethod } from "./enums/httpMethod.enum";
 export { PurchaseStatus, SubStatus } from "./enums/status.enum";
 //bases
-export { baseController } from "./base/base.controller";
+export { Controller } from "./base/Controller";
 //factories
 export { ResponseFactory } from "./factories/response.factory";

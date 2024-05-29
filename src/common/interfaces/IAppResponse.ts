@@ -12,7 +12,5 @@ export interface IErrorResponse {
 export interface ISuccessResponse {
   status: HttpStatus;
   success: boolean;
-  results: {
-    data: any;
-  };
+  results: Record<string, unknown>;
 }
