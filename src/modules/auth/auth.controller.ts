@@ -4,12 +4,12 @@ import { inject } from "inversify";
 
 import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./dto";
 import { IOCTYPES } from "../../IOC/ioc.types";
-import { ILogger } from "../../common";
+import { ILogger, baseController } from "../../common";
 import { IAuthService } from "./interfaces/IAuthService";
 import { ValidationMiddleware, Guard } from "../../core";
 
 @controller("/auth")
-class AuthController {
+class AuthController extends baseController {
   @inject(IOCTYPES.AuthService) private authService: IAuthService;
   @inject(IOCTYPES.Logger) private logger: ILogger;
 
