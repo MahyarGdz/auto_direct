@@ -17,8 +17,18 @@ class Authenticate {
     clientID: process.env.FB_CLIENT_ID || "",
     clientSecret: process.env.FB_CLIENT_SEC || "",
     callbackURL: process.env.FB_CALLBACK || "",
-    scope: ["email", "public_profile", "instagram_basic"],
-    profileFields: ["id", "link", "email", "name", "picture", "address"],
+    scope: [
+      "email",
+      "public_profile",
+      "instagram_basic",
+      "instagram_content_publish",
+      "instagram_manage_comments",
+      "instagram_content_publish",
+      "instagram_manage_insights",
+      "pages_show_list",
+      "pages_read_engagement",
+    ],
+    profileFields: ["id", "link", "email", "displayName", "picture"],
     graphAPIVersion: "v20.0",
   };
   public initialize = () => {

@@ -43,9 +43,9 @@ class AuthController extends Controller {
     res.json({ user });
   }
 
-  @httpGet("/facebookNew")
+  @httpGet("/facebookNew", Guard.oAuth("facebook"))
   public async connectFbAccount() {
-    return Guard.oAuth("facebook");
+    this.logger.info("call connectFbAccount()");
   }
   //
   @httpGet("/facebook/callback", Guard.oAuthCallback("facebook"))
