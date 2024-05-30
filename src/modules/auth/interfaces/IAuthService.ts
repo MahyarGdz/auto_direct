@@ -11,6 +11,7 @@ type LoginResponse = {
 
 type CheckOtpResponse = {
   message: AuthMessage;
+  tokenType: string;
   accessToken: {
     token: string;
     expires: string;
@@ -23,6 +24,7 @@ type CheckOtpResponse = {
 };
 
 type RefreshTokensResponse = {
+  tokenType: string;
   accessToken: {
     token: string;
     expires: string;

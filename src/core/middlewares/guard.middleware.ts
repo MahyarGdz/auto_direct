@@ -39,12 +39,7 @@ class Guard {
   public handleJwt =
     (req: Request, _res: Response, next: NextFunction) =>
     async (err: Error, user: UsersEntity, info: string | object | JsonWebTokenError | TokenExpiredError): Promise<void> => {
-      console.log(err);
-      console.log(user);
-      console.log(info);
-
       if (err) {
-        console.log("here");
         return next(new UnauthorizedError("Authentication failed"));
       }
       if (info instanceof TokenExpiredError) {

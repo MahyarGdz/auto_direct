@@ -10,6 +10,8 @@ declare namespace NodeJS {
     DB_NAME: string;
 
     JWT_SECRET: string;
+    JWT_EXPIRE_ACCESS: string;
+    JWT_EXPIRE_REFRESH: string;
 
     SMS_API_KEY: string;
     SMS_ENDPOINT_VERIFY: string;
