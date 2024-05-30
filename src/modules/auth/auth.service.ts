@@ -1,18 +1,24 @@
 import * as crypto from "crypto";
+import Dayjs from "dayjs";
+
 import { inject, injectable } from "inversify";
-import { NotFoundError, UnauthorizedError } from "../../core/";
-import { AuthMessage, AuthTokenPayload, ILogger, ITokenService, type Token } from "../../common";
+import { VerifiedCallback } from "passport-jwt";
+import { Profile } from "passport-facebook";
+
+import { NotFoundError, UnauthorizedError, ILogger } from "../../core/";
+import { AuthMessage, AuthTokenPayload } from "../../common";
 import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./dto";
 import { SMS, CacheService } from "../../utils";
 import { IAuthService } from "./interfaces/IAuthService";
 import { IOCTYPES } from "../../IOC/ioc.types";
 import { UserRepository } from "../users/user.repository";
-import { VerifiedCallback } from "passport-jwt";
-import { Profile } from "passport-facebook";
+import { TokenService } from "../token/token.service";
+import { TokenRepository } from "../token/token.repository";
 
 @injectable()
 class AuthService implements IAuthService {
-  @inject(IOCTYPES.TokenService) private tokenService: ITokenService;
+  @inject(IOCTYPES.TokenService) private tokenService: TokenService;
+  @inject(IOCTYPES.TokenRepository) private tokenRepository: TokenRepository;
   @inject(IOCTYPES.UserRepository) private userRepository: UserRepository;
   @inject(IOCTYPES.CacheService) private cache: CacheService;
   @inject(IOCTYPES.Logger) private logger: ILogger;
@@ -45,9 +51,10 @@ class AuthService implements IAuthService {
       await this.userRepository.save(user);
     }
     // generate Access Token And Refresh Token
-    const { accessToken, refreshToken } = this.tokenService.generateAuthTokens({ sub: user.id });
+    const { accessToken, refreshToken } = await this.tokenService.generateAuthTokens({ sub: user.id }, user);
     //
     return {
+      tokenType: "Bearer",
       message: AuthMessage.LoginSuccess,
       accessToken,
       refreshToken,
@@ -62,12 +69,21 @@ class AuthService implements IAuthService {
   }
   // refersh  both token with refersh token
   public async refreshTokensS(data: TokenDto) {
-    const { token } = data;
-    const { sub } = this.tokenService.verifyToken(token as Token);
-    const user = await this.userRepository.findOne({ where: { id: sub as string } });
-    if (!user) throw new NotFoundError("user not found by give id");
-    const tokens = this.tokenService.generateAuthTokens({ sub: user.id });
-    return tokens;
+    const refTokens = await this.tokenRepository.findOne({ where: { refreshToken: data.token } });
+
+    if (!refTokens) throw new NotFoundError("RefreshToken Not Found");
+
+    if (Dayjs(refTokens.refreshTokenExpires).isBefore(Dayjs())) {
+      await this.tokenRepository.remove(refTokens);
+      throw new UnauthorizedError("refresh token has been expired!");
+    }
+    const { accessToken, refreshToken } = await this.tokenService.generateAuthTokens({ sub: refTokens.user.id }, refTokens.user);
+
+    return {
+      tokenType: "Bearer",
+      accessToken,
+      refreshToken,
+    };
   }
   //generate otp code
   public generateOtpCode(): string {

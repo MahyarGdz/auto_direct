@@ -1,5 +1,6 @@
 export { appDataSrc } from "./app/app.datasource";
 export { Logger } from "./logging/logger";
+export { ILogger } from "./logging/ILogger";
 export { notFoundHandler, errorHandler, lastHandler } from "./app/app.errorHandler";
 export { Authenticate } from "./config/authenticate.config";
 export {

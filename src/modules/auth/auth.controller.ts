@@ -4,9 +4,9 @@ import { inject } from "inversify";
 
 import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./dto";
 import { IOCTYPES } from "../../IOC/ioc.types";
-import { ILogger, Controller, HttpStatus } from "../../common";
+import { Controller, HttpStatus } from "../../common";
 import { IAuthService } from "./interfaces/IAuthService";
-import { ValidationMiddleware, Guard } from "../../core";
+import { ValidationMiddleware, Guard, ILogger } from "../../core";
 
 @controller("/auth")
 class AuthController extends Controller {
@@ -24,16 +24,17 @@ class AuthController extends Controller {
   @httpPost("/check-otp", ValidationMiddleware.validateInput(AuthCheckOtpDto))
   public async checkOtpC(@requestBody() data: AuthCheckOtpDto) {
     this.logger.info("call checkOtpC()");
-    const message = await this.authService.checkOtpS(data);
+    const tokens = await this.authService.checkOtpS(data);
     // return authDto
-    return this.response(message, HttpStatus.Created);
+    return this.response(tokens, HttpStatus.Created);
   }
+
   @httpPost("/refresh-token", ValidationMiddleware.validateInput(TokenDto))
-  public async refreshTokens(@requestBody() token: TokenDto) {
+  public async refreshTokens(@requestBody() refreshToken: TokenDto) {
     this.logger.info("call refreshTokons()");
-    const message = await this.authService.refreshTokensS(token);
+    const tokens = await this.authService.refreshTokensS(refreshToken);
     //return new access token
-    return this.response(message, HttpStatus.Created);
+    return this.response(tokens, HttpStatus.Created);
   }
 
   @httpGet("/secret", Guard.authJwt())

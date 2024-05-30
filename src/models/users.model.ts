@@ -1,6 +1,8 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Relation, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, Relation, UpdateDateColumn } from "typeorm";
 import { SubscriptionsEntity } from "./subscriptions.model";
 import { PurchasesEntity } from "./purhcases.model";
+import { RefTokensEntity } from "./RefTokens.model";
+import { FBTokensEntity } from "./FbTokens.model";
 
 @Entity("users")
 export class UsersEntity {
@@ -24,6 +26,12 @@ export class UsersEntity {
 
   @UpdateDateColumn()
   update_At!: Date;
+
+  @OneToOne(() => RefTokensEntity, (ref_token) => ref_token.user)
+  ref_token: Relation<RefTokensEntity>;
+
+  @OneToOne(() => FBTokensEntity, (fb_token) => fb_token.user)
+  fb_token: Relation<FBTokensEntity>;
 
   @OneToMany(() => SubscriptionsEntity, (subscription) => subscription.user)
   subscriptions: Array<Relation<SubscriptionsEntity>>;
