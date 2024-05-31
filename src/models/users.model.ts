@@ -3,6 +3,7 @@ import { SubscriptionsEntity } from "./subscriptions.model";
 import { PurchasesEntity } from "./purhcases.model";
 import { RefTokensEntity } from "./RefTokens.model";
 import { FBTokensEntity } from "./FbTokens.model";
+import { IGCommentEntity } from "./igComment.model";
 
 @Entity("users")
 export class UsersEntity {
@@ -38,4 +39,7 @@ export class UsersEntity {
 
   @OneToMany(() => PurchasesEntity, (purchase) => purchase.user)
   purchases: Array<Relation<PurchasesEntity>>;
+
+  @OneToMany(() => IGCommentEntity, (ig_comment) => ig_comment.user)
+  ig_comment: Array<Relation<IGCommentEntity>>;
 }
