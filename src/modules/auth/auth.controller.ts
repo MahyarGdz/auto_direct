@@ -19,7 +19,7 @@ class AuthController extends Controller {
     this.logger.info("call loginC()");
     const message = await this.authService.loginS(LoginData);
     // return authDto
-    return this.response(message, HttpStatus.Ok);
+    return this.response(message);
   }
 
   @httpPost("/check-otp", ValidationMiddleware.validateInput(AuthCheckOtpDto))
