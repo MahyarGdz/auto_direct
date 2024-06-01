@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, JoinColumn, Relation, OneToOne } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, JoinColumn, Relation, ManyToOne } from "typeorm";
 import { UsersEntity } from "./users.model";
 
 @Entity("FB_token")
@@ -6,18 +6,15 @@ export class FBTokensEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @OneToOne(() => UsersEntity, (user) => user.fb_token, { eager: true, onDelete: "CASCADE", nullable: false })
+  @ManyToOne(() => UsersEntity, (user) => user.fb_tokens, { eager: true, onDelete: "CASCADE", nullable: false })
   @JoinColumn({ name: "user_id" })
   user: Relation<UsersEntity>;
 
   @Column({ nullable: true })
-  U_FbAccessToken: string;
+  Page_AccessToken: string;
 
   @Column({ nullable: true })
-  U_FbAccessTokenExpires: Date;
-
-  //   @Column({ nullable: true })
-  //   pageAccessToken: string;
+  Page_AccessTokenExpires: Date;
 
   @CreateDateColumn()
   createdAt: Date;

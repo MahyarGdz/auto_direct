@@ -13,6 +13,12 @@ export class UsersEntity {
   @Column({ nullable: false })
   fullname!: string;
 
+  @Column({ nullable: true, unique: true })
+  email!: string;
+
+  @Column({ nullable: true, unique: true })
+  profile_pic: string;
+
   @Column({ nullable: false, unique: true })
   phone!: string;
 
@@ -22,6 +28,9 @@ export class UsersEntity {
   @Column({ nullable: true, unique: true })
   facebookId!: string;
 
+  @Column({ nullable: true })
+  FBAccessToken!: string;
+
   @CreateDateColumn()
   created_At!: Date;
 
@@ -29,17 +38,17 @@ export class UsersEntity {
   update_At!: Date;
 
   @OneToOne(() => RefTokensEntity, (ref_token) => ref_token.user)
-  ref_token: Relation<RefTokensEntity>;
+  ref_token!: Relation<RefTokensEntity>;
 
-  @OneToOne(() => FBTokensEntity, (fb_token) => fb_token.user)
-  fb_token: Relation<FBTokensEntity>;
+  @OneToMany(() => FBTokensEntity, (fb_token) => fb_token.user)
+  fb_tokens!: Array<Relation<FBTokensEntity>>;
 
   @OneToMany(() => SubscriptionsEntity, (subscription) => subscription.user)
-  subscriptions: Array<Relation<SubscriptionsEntity>>;
+  subscriptions!: Array<Relation<SubscriptionsEntity>>;
 
   @OneToMany(() => PurchasesEntity, (purchase) => purchase.user)
-  purchases: Array<Relation<PurchasesEntity>>;
+  purchases!: Array<Relation<PurchasesEntity>>;
 
   @OneToMany(() => IGCommentEntity, (ig_comment) => ig_comment.user)
-  ig_comment: Array<Relation<IGCommentEntity>>;
+  ig_comment!: Array<Relation<IGCommentEntity>>;
 }

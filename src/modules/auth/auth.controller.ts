@@ -1,5 +1,5 @@
-import { Response, Request } from "express";
-import { controller, httpGet, httpPost, request, requestBody, response } from "inversify-express-utils";
+import { Response, Request, NextFunction } from "express";
+import { controller, httpGet, httpPost, next, request, requestBody, response } from "inversify-express-utils";
 import { inject } from "inversify";
 
 import { AuthLoginDto, AuthCheckOtpDto, TokenDto } from "./dto";
@@ -7,6 +7,7 @@ import { IOCTYPES } from "../../IOC/ioc.types";
 import { Controller, HttpStatus } from "../../common";
 import { IAuthService } from "./interfaces/IAuthService";
 import { ValidationMiddleware, Guard, ILogger } from "../../core";
+import { UsersEntity } from "../../models";
 
 @controller("/auth")
 class AuthController extends Controller {
@@ -43,9 +44,11 @@ class AuthController extends Controller {
     res.json({ user });
   }
 
-  @httpGet("/facebookNew", Guard.oAuth("facebook"))
-  public async connectFbAccount() {
+  @httpGet("/facebookNew", Guard.authJwt())
+  public async connectFbAccount(@request() req: Request, @response() res: Response, @next() nxt: NextFunction) {
     this.logger.info("call connectFbAccount()");
+    const user = req.user as UsersEntity;
+    Guard.oAuth("facebook", user.id)(req, res, nxt);
   }
   //
   @httpGet("/facebook/callback", Guard.oAuthCallback("facebook"))

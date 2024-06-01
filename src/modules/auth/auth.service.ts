@@ -3,6 +3,7 @@ import Dayjs from "dayjs";
 
 import { inject, injectable } from "inversify";
 import { VerifiedCallback } from "passport-jwt";
+import { Request } from "express";
 import { Profile } from "passport-facebook";
 
 import { NotFoundError, UnauthorizedError, ILogger } from "../../core/";
@@ -104,18 +105,24 @@ class AuthService implements IAuthService {
     }
   };
 
-  public oAuth = async (token: string, refreshToken: string, profile: Profile, done: VerifiedCallback): Promise<void> => {
+  public oAuth = async (req: Request, token: string, _refreshToken: string, profile: Profile, done: VerifiedCallback): Promise<void> => {
     try {
-      console.log(token);
-      console.log("=========================");
+      const { state: userId } = req.query;
 
-      console.log(refreshToken);
-      console.log("=========================");
+      const user = await this.userRepository.findOne({ where: { id: userId as string } });
+      if (!user) {
+        return done(null, false);
+      }
 
-      console.log(profile);
-      console.log("=========================");
+      user.facebookId = profile.id;
+      user.fullname = profile.displayName;
+      user.email = profile.emails?.pop()?.value || "";
+      user.profile_pic = profile.photos?.pop()?.value || "";
+      user.FBAccessToken = token;
 
-      done(null, profile);
+      await this.userRepository.save(user);
+
+      done(null, user);
     } catch (err) {
       return done(err, false);
     }

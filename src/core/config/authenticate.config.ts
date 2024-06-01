@@ -1,5 +1,5 @@
 import passport from "passport";
-import { Strategy as FacebookStrategy, StrategyOptions } from "passport-facebook";
+import { Strategy as FacebookStrategy, StrategyOptionsWithRequest } from "passport-facebook";
 import { inject, injectable } from "inversify";
 import { Strategy as JwtStrategy, ExtractJwt, StrategyOptionsWithoutRequest } from "passport-jwt";
 import { IOCTYPES } from "../../IOC/ioc.types";
@@ -13,7 +13,7 @@ class Authenticate {
     secretOrKey: process.env.JWT_SECRET || "",
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   };
-  private fbOptions: StrategyOptions = {
+  private fbOptions: StrategyOptionsWithRequest = {
     clientID: process.env.FB_CLIENT_ID || "",
     clientSecret: process.env.FB_CLIENT_SEC || "",
     callbackURL: process.env.FB_CALLBACK || "",
@@ -28,8 +28,9 @@ class Authenticate {
       "pages_show_list",
       "pages_read_engagement",
     ],
-    profileFields: ["id", "link", "email", "displayName", "picture"],
+    profileFields: ["id", "email", "displayName", "picture"],
     graphAPIVersion: "v20.0",
+    passReqToCallback: true,
   };
   public initialize = () => {
     return passport.initialize();

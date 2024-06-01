@@ -59,7 +59,7 @@ class Guard {
       next();
     };
 
-  public oAuth = (serivce: OAuthProvider) => passport.authenticate(serivce, { session: false });
+  public oAuth = (serivce: OAuthProvider, state: string) => passport.authenticate(serivce, { session: false, state: state });
 
   public oAuthCallback = (service: OAuthProvider) => (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate(service, { session: false }, this.handleOauth(req, res, next))(req, res, next);
