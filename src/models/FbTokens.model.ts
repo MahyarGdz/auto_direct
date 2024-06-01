@@ -10,6 +10,9 @@ export class FBTokensEntity {
   @JoinColumn({ name: "user_id" })
   user: Relation<UsersEntity>;
 
+  @Column({ nullable: false })
+  Page_Id: string;
+
   @Column({ nullable: true })
   Page_AccessToken: string;
 

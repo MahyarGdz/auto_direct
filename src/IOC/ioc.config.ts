@@ -10,15 +10,18 @@ import { UserRepository, createUserRepository } from "../modules/users/user.repo
 import { CacheService, createNodeCache } from "../utils/cache.service";
 import { TokenService } from "../modules/token/token.service";
 import { TokenRepository, createTokenRepository } from "../modules/token/token.repository";
+import { FacebookService } from "../modules/facebook/facebook.service";
+import { IFacebookService } from "../modules/facebook/interfaces/IFacebook";
 
 const containerModules = new AsyncContainerModule(async (bind) => {
   bind(Authenticate).to(Authenticate);
 
   //services
   bind<IAuthService>(IOCTYPES.AuthService).to(AuthService);
+  bind<IUserService>(IOCTYPES.UserService).to(UserService);
+  bind<IFacebookService>(IOCTYPES.FacebookService).to(FacebookService);
   bind<TokenService>(IOCTYPES.TokenService).to(TokenService);
   bind<ILogger>(IOCTYPES.Logger).to(Logger);
-  bind<IUserService>(IOCTYPES.UserService).to(UserService);
   bind<CacheService>(IOCTYPES.CacheService).toDynamicValue(createNodeCache);
 
   //repositories

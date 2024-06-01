@@ -13,6 +13,7 @@ import { Logger, errorHandler, lastHandler, notFoundHandler, appOptions, Authent
 import { containerModules } from "./IOC/ioc.config";
 //import controller to generate metadata
 import "./modules/auth/auth.controller";
+import "./modules/facebook/facebook.controller";
 
 const logger = new Logger();
 
