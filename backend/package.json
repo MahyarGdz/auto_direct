@@ -18,7 +18,7 @@
     "migration:revert": "npm-run-all build \"typeorm -- migration:revert ./src \"",
     "migration:generate": "npm-run-all build \"typeorm -- migration:generate src/models/migrations/m \"",
     "migration:create": "npx typeorm migration:create src/models/migrations/m",
-    "prepare": "husky"
+    "prepare": "cd .. && husky backend/.husky"
   },
   "lint-staged": {
     "**/*.ts": [
