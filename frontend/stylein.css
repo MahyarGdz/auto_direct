@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+
+nav li a:hover{
+color: rgb(77, 75, 75);
+transition: 0.5s;
+}
+.menu li{
+    padding: 15px 5px;
+}
+
+.menu{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.item{
+    width: 100%;
+   text-align: center;
+   order: 3;
+   display: none;
+
+}
+
+.item.active{
+    display: block;
+}
+
+
+.bars{
+background: #999;
+display: inline-block;
+height: 2px;
+position: relative;
+width: 18px;
+}
+
+.toggle{
+    cursor: pointer;
+}
+
+.bars::before,.bars::after{
+    background: #999;
+    content:"";
+    display: inline-block;
+    height: 2px;
+    position: absolute;
+    width: 18px;
+}
+
+.bars::before{
+    top: 5px;
+}
+
+.bars::after{
+    top: -5px;
+}
+
+.text1{
+    line-height: 3rem;
+}
+}
+
+
+

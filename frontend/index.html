@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styleout.css" />
+    <link rel="stylesheet" href="./fonts.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <title>ibotgram</title>
+  </head>
+
+  <body class="break-words font-vazirmatn h-[100%] max-w-screen-2xl mx-auto">
+    <nav class="w-[100%] flex items-center justify-between py-5 px-8">
+      <a
+        class="text-black text-2xl flex items-center pl-5 cursor-default font-bold"
+        href=""
+      >
+        ibotgram</a
+      >
+      <img
+        onclick="showSidebar()"
+        class="cursor-pointer mob:flex md:hidden w-[25px]"
+        src="./Logo/menu.png"
+        alt=""
+      />
+
+      <ul
+        class="text-black px-8 py-3 rounded-[9999px] border-gray-500 border-[2px] mob:hidden md:flex items-center gap-8 justify-center"
+      >
+        <li class="iteem cursor-pointer"><a href="">خانه</a></li>
+        <li class="iteem cursor-pointer"><a href="">تعرفه ها</a></li>
+        <li class="iteem cursor-pointer"><a href="">درباره ما</a></li>
+        <li class="iteem cursor-pointer"><a href="">تماس با ما</a></li>
+        <li class="iteem cursor-pointer"><a href="">سوالات متداول</a></li>
+      </ul>
+      <img
+        class="w-[50px] mob:hidden md:flex"
+        src="./Logo/ibotgramlogo.png"
+        alt=""
+      />
+
+      <ul
+        class="text-white p-10 sidebar fixed top-0 left-0 h-[100vh] w-[250px] hidden z-10 bg-gray-900 flex-col items-start justify-start"
+      >
+        <li onclick="hideSidebar()" class="w-[30px] cursor-pointer float-start">
+          <img src="./img/close.png" alt="" />
+        </li>
+        <li
+          class="w-[100%] pt-8 iteem cursor-pointer flex items-center justify-center"
+        >
+          <a class="w-[100%]" href="">خانه</a>
+        </li>
+        <li
+          class="w-[100%] pt-8 iteem cursor-pointer flex items-center justify-center"
+        >
+          <a class="w-[100%]" href="">تعرفه ها</a>
+        </li>
+        <li
+          class="w-[100%] pt-8 iteem cursor-pointer flex items-center justify-center"
+        >
+          <a class="w-[100%]" href="">درباره ما</a>
+        </li>
+        <li
+          class="w-[100%] pt-8 iteem cursor-pointer flex items-center justify-center"
+        >
+          <a class="w-[100%]" href="">تماس با ما</a>
+        </li>
+        <li
+          class="w-[100%] pt-8 iteem cursor-pointer flex items-center justify-center"
+        >
+          <a class="w-[100%]" href="">سوالات متداول</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="header md:flex  items-center px-5 mx-auto justify-center mob:grid mt-16 leading-10">
+      <div class="header-text  md:max-w-[60%] mob:text-center md:text-start mob:pt-5 mob:order-2 md:order-1 mob:w-[100%]">
+        <h2 class="md:text-5xl pt-9  mob:text-2xl font-bold mb-7">
+          آی باتگرام  دستیار هوشمند اینستاگرام
+        </h2>
+        <h3 class="font-bold max-w-[90%] overflow-auto text1">
+          آی باتگرام یک دستیار هوشمند تمام اتوماتیک برای پیج اینستاگرام شماست ،
+          با آی باتگرام میتوانید تحولی شگرف را در بیزنس خود در دنیای مجازی تجربه
+          کنید.
+        </h3>
+      </div>
+      <div class="header-img mob:m-auto mob:order-1 md:order-2">
+        <img class="max-w-[100%]" src="./images/header.png" alt="" />
+      </div>
+    </div>
+
+    <script src="./web.js"></script>
+  </body>
+</html>
