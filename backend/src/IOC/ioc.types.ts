@@ -7,4 +7,5 @@ export const IOCTYPES = {
   CacheService: Symbol.for("CacheService"),
   UserRepository: Symbol.for("UserRepository"),
   TokenRepository: Symbol.for("TokenRepository"),
+  FBTokenRepository: Symbol.for("FBTokenRepository"),
 };

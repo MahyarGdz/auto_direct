@@ -1,4 +1,4 @@
-import { controller, httpGet, request } from "inversify-express-utils";
+import { controller, httpGet, httpPost, request, requestBody } from "inversify-express-utils";
 import { Request } from "express";
 import { Controller } from "../../common";
 import { Guard } from "../../core";
@@ -6,6 +6,7 @@ import { UsersEntity } from "../../models";
 import { IOCTYPES } from "../../IOC/ioc.types";
 import { IFacebookService } from "./interfaces/IFacebook";
 import { inject } from "inversify";
+import { setPageDataDTO } from "./dto/setPageData.dto";
 
 @controller("/facebook")
 class FacebookController extends Controller {
@@ -17,6 +18,15 @@ class FacebookController extends Controller {
     const pages = await this.facebookService.getPages(user);
     //return pages
     return this.response({ pages });
+  }
+
+  @httpPost("/setPage", Guard.authJwt())
+  public async setPage(@request() req: Request, @requestBody() pageData: setPageDataDTO) {
+    const user = req.user as UsersEntity;
+    const { pageID } = pageData;
+    const FbToken = await this.facebookService.setPage(user, pageID);
+    //return Token And pageID
+    return this.response({ FbToken });
   }
 }
 
