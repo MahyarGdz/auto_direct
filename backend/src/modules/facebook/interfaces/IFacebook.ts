@@ -1,4 +1,4 @@
-import { UsersEntity } from "../../../models";
+import { FBTokensEntity, UsersEntity } from "../../../models";
 
 export interface facebookPageData {
   data: Array<{
@@ -22,6 +22,13 @@ export interface returnPageData {
   category: string;
   photoUrl: string;
 }
+
+export interface setPageData {
+  access_token: string;
+  id: string;
+}
+
 export interface IFacebookService {
   getPages(user: UsersEntity): Promise<returnPageData[]>;
+  setPage(user: UsersEntity, pageId: string): Promise<FBTokensEntity>;
 }

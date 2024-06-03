@@ -12,6 +12,7 @@ import { TokenService } from "../modules/token/token.service";
 import { TokenRepository, createTokenRepository } from "../modules/token/token.repository";
 import { FacebookService } from "../modules/facebook/facebook.service";
 import { IFacebookService } from "../modules/facebook/interfaces/IFacebook";
+import { createFBTokenRepository, FBTokenRepository } from "../modules/facebook/facebook.repository";
 
 const containerModules = new AsyncContainerModule(async (bind) => {
   bind(Authenticate).to(Authenticate);
@@ -27,6 +28,7 @@ const containerModules = new AsyncContainerModule(async (bind) => {
   //repositories
   bind<UserRepository>(IOCTYPES.UserRepository).toDynamicValue(createUserRepository);
   bind<TokenRepository>(IOCTYPES.TokenRepository).toDynamicValue(createTokenRepository);
+  bind<FBTokenRepository>(IOCTYPES.FBTokenRepository).toDynamicValue(createFBTokenRepository);
 });
 
 export { containerModules };
