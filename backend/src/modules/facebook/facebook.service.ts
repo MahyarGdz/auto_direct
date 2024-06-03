@@ -36,7 +36,7 @@ class FacebookService implements IFacebookService {
     return pageData;
   }
 
-  public async setPage(user: UsersEntity, pageId: string): Promise<FBTokensEntity> {
+  public async setPage(user: UsersEntity, pageId: string): Promise<object> {
     const FB_Access_Token = user.FBAccessToken;
     const url = `${this.FbGraphUrl}/${this.FbGraphVersion}/${pageId}`;
 
@@ -68,7 +68,7 @@ class FacebookService implements IFacebookService {
       Page_AccessTokenExpires: "null",
     });
     await this.FBTokenRepository.save(FbToken);
-    return FbToken;
+    return { message: "The page has been set successfully" };
   }
 }
 
