@@ -1,6 +1,6 @@
 import { controller, httpGet, httpPost, request, requestBody } from "inversify-express-utils";
 import { Request } from "express";
-import { Controller } from "../../common";
+import { Controller, HttpStatus } from "../../common";
 import { Guard } from "../../core";
 import { UsersEntity } from "../../models";
 import { IOCTYPES } from "../../IOC/ioc.types";
@@ -24,9 +24,9 @@ class FacebookController extends Controller {
   public async setPage(@request() req: Request, @requestBody() pageData: setPageDataDTO) {
     const user = req.user as UsersEntity;
     const { pageID } = pageData;
-    const FbToken = await this.facebookService.setPage(user, pageID);
-    //return Token And pageID
-    return this.response({ FbToken });
+    const result = await this.facebookService.setPage(user, pageID);
+    //return { message : "The page has been set successfully" }
+    return this.response({ result }, HttpStatus.Ok);
   }
 }
 
