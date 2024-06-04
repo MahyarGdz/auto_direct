@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { IFacebookService, facebookPageData, setPageData } from "./interfaces/IFacebook";
+import { IFacebookService, InstagramBusinessAccountData, facebookPageData, setPageData } from "./interfaces/IFacebook";
 import { UsersEntity } from "../../models";
 import axios from "axios";
 import { IOCTYPES } from "../../IOC/ioc.types";
@@ -72,15 +72,19 @@ class FacebookService implements IFacebookService {
     await this.FBTokenRepository.save(FbToken);
     return { message: "The page has been set successfully" };
   }
+
+   async  getInstagramBusinessAccount(FB_pageId: string, FB_Token : string) : Promise<InstagramBusinessAccountData> {
+    const url = `${this.FbGraphUrl}/${this.FbGraphVersion}/${FB_pageId}?fields=instagram_business_account&access_token=${FB_Token}`;
+    const response = await axios.get(url);
+    const result = response.data as InstagramBusinessAccountData;
+    return result
+  }
+
+
 }
 
 export { FacebookService };
 
-// async function getInstagramBusinessAccount(pageId, accessToken) {
-//   const url = `https://graph.facebook.com/v9.0/${pageId}?fields=instagram_business_account&access_token=${accessToken}`;
-//   const response = await axios.get(url);
-//   return response.data.instagram_business_account.id;
-// }
 
 // async function getConversations(instagramBusinessAccountId, accessToken) {
 //   const url = `https://graph.facebook.com/v9.0/${instagramBusinessAccountId}/conversations?platform=instagram&access_token=${accessToken}`;
