@@ -11,6 +11,9 @@ export class FBTokensEntity {
   user: Relation<UsersEntity>;
 
   @Column({ nullable: false })
+  name: string;
+
+  @Column({ nullable: false })
   Page_Id: string;
 
   @Column({ nullable: true })

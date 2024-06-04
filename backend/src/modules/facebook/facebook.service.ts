@@ -47,7 +47,7 @@ class FacebookService implements IFacebookService {
     const response = await axios.get(url, {
       params: {
         access_token: FB_Access_Token,
-        fields: "access_token",
+        fields: "access_token,name",
       },
     });
 
@@ -65,9 +65,10 @@ class FacebookService implements IFacebookService {
    */
     const PageData = response.data as setPageData;
 
-    const { access_token, id } = PageData;
+    const { access_token, id, name } = PageData;
     const FbToken = this.FBTokenRepository.create({
       user: user,
+      name: name,
       Page_Id: id,
       Page_AccessToken: access_token,
       //   Page_AccessTokenExpires: "null",
@@ -89,8 +90,8 @@ class FacebookService implements IFacebookService {
     if (!FBToken || FBToken.user.id !== user.id) {
       throw new NotFoundError("page not found !");
     }
-    
-    const IBAccount = await this.getInstagramBusinessAccount(FBToken.Page_Id,FBToken.Page_AccessToken)
+
+    const IBAccount = await this.getInstagramBusinessAccount(FBToken.Page_Id, FBToken.Page_AccessToken);
 
     const url = `${this.FbGraphUrl}/${this.FbGraphVersion}/${IBAccount.instagram_business_account.id}/media?fields=like_count,media_url,media_type,timestamp,thumbnail_url,shortcode,comments_count&access_token=${FBToken.Page_AccessToken}`;
     const response = await axios.get(url);
