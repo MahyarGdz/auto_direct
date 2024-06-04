@@ -28,7 +28,14 @@ export interface setPageData {
   id: string;
 }
 
+export interface InstagramBusinessAccountData {
+  instagram_business_account: {
+    id: string;
+  };
+  id: string;
+}
 export interface IFacebookService {
   getPages(user: UsersEntity): Promise<returnPageData[]>;
   setPage(user: UsersEntity, pageId: string): Promise<{ message: string }>;
+  getInstagramBusinessAccount(FB_pageId: string, FB_Token : string) : Promise<InstagramBusinessAccountData>
 }
