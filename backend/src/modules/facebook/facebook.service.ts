@@ -1,9 +1,10 @@
 import { inject, injectable } from "inversify";
-import { IFacebookService, InstagramBusinessAccountData, facebookPageData, setPageData } from "./interfaces/IFacebook";
+import { IFacebookService, InstagramBusinessAccountData, facebookPageData, getMediaData, setPageData } from "./interfaces/IFacebook";
 import { UsersEntity } from "../../models";
 import axios from "axios";
 import { IOCTYPES } from "../../IOC/ioc.types";
 import { FBTokenRepository } from "./facebook.repository";
+import { NotFoundError } from "../../core";
 // import { BadRequestError } from "../../core";
 // import { error } from "console";
 
@@ -25,6 +26,8 @@ class FacebookService implements IFacebookService {
         fields: "access_token,category,name,id,photos{picture}",
       },
     });
+    console.log(response);
+
     const pageData = (response.data as facebookPageData).data.map((page) => {
       return {
         id: page.id,
@@ -73,18 +76,31 @@ class FacebookService implements IFacebookService {
     return { message: "The page has been set successfully" };
   }
 
-   async  getInstagramBusinessAccount(FB_pageId: string, FB_Token : string) : Promise<InstagramBusinessAccountData> {
-    const url = `${this.FbGraphUrl}/${this.FbGraphVersion}/${FB_pageId}?fields=instagram_business_account&access_token=${FB_Token}`;
+  async getInstagramBusinessAccount(FB_pageId: string, pageAccessToken: string): Promise<InstagramBusinessAccountData> {
+    const url = `${this.FbGraphUrl}/${this.FbGraphVersion}/${FB_pageId}?fields=instagram_business_account&access_token=${pageAccessToken}`;
     const response = await axios.get(url);
     const result = response.data as InstagramBusinessAccountData;
-    return result
+    return result;
   }
 
+  async getMedia(user: UsersEntity, pageID: string) {
+    const FBToken = await this.FBTokenRepository.findOne({ where: { Page_Id: pageID } });
+    console.log(FBToken);
+    if (!FBToken || FBToken.user.id !== user.id) {
+      throw new NotFoundError("page not found !");
+    }
+    
+    const IBAccount = await this.getInstagramBusinessAccount(FBToken.Page_Id,FBToken.Page_AccessToken)
 
+    const url = `${this.FbGraphUrl}/${this.FbGraphVersion}/${IBAccount.instagram_business_account.id}/media?fields=like_count,media_url,media_type,timestamp,thumbnail_url,shortcode,comments_count&access_token=${FBToken.Page_AccessToken}`;
+    const response = await axios.get(url);
+    const result = response.data as getMediaData;
+
+    return result;
+  }
 }
 
 export { FacebookService };
-
 
 // async function getConversations(instagramBusinessAccountId, accessToken) {
 //   const url = `https://graph.facebook.com/v9.0/${instagramBusinessAccountId}/conversations?platform=instagram&access_token=${accessToken}`;
