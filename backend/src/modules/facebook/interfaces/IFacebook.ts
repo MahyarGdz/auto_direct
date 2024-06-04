@@ -25,6 +25,7 @@ export interface returnPageData {
 
 export interface setPageData {
   access_token: string;
+  name:string,
   id: string;
 }
 
