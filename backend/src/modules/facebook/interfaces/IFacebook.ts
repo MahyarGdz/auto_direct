@@ -34,8 +34,29 @@ export interface InstagramBusinessAccountData {
   };
   id: string;
 }
+
+export interface getMediaData {
+  data: [
+    {
+      like_count: number;
+      media_url: string;
+      media_type: string;
+      timestamp: string;
+      shortcode: string;
+      comments_count: number;
+      id: string;
+    },
+  ];
+  paging: {
+    cursors: {
+      before: string;
+      after: string;
+    };
+  };
+}
 export interface IFacebookService {
   getPages(user: UsersEntity): Promise<returnPageData[]>;
   setPage(user: UsersEntity, pageId: string): Promise<{ message: string }>;
-  getInstagramBusinessAccount(FB_pageId: string, FB_Token : string) : Promise<InstagramBusinessAccountData>
+  getInstagramBusinessAccount(FB_pageId: string, pageAccessToken: string): Promise<InstagramBusinessAccountData>;
+  getMedia(user: UsersEntity, pageID: string): Promise<getMediaData>;
 }

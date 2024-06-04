@@ -1,4 +1,4 @@
-import { controller, httpGet, httpPost, request, requestBody } from "inversify-express-utils";
+import { controller, httpGet, httpPost, request, requestBody, requestParam } from "inversify-express-utils";
 import { Request } from "express";
 import { Controller, HttpStatus } from "../../common";
 import { Guard, ValidationMiddleware } from "../../core";
@@ -26,6 +26,14 @@ class FacebookController extends Controller {
     const { pageID } = pageData;
     const result = await this.facebookService.setPage(user, pageID);
     //return { message : "The page has been set successfully" }
+    return this.response({ result }, HttpStatus.Ok);
+  }
+
+  @httpGet("/:pageID/getMedia", Guard.authJwt())
+  public async getMedia(@request() req: Request, @requestParam("pageID") pageID: string) {
+    const user = req.user as UsersEntity;
+    const result = await this.facebookService.getMedia(user, pageID);
+    //return
     return this.response({ result }, HttpStatus.Ok);
   }
 }
