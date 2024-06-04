@@ -72,16 +72,9 @@ class FacebookService implements IFacebookService {
     await this.FBTokenRepository.save(FbToken);
     return { message: "The page has been set successfully" };
   }
-
-
 }
 
 export { FacebookService };
-
-// const axios = require('axios');
-
-// const PAGE_ID = 'your-page-id';
-// const ACCESS_TOKEN = 'your-access-token';
 
 // async function getInstagramBusinessAccount(pageId, accessToken) {
 //   const url = `https://graph.facebook.com/v9.0/${pageId}?fields=instagram_business_account&access_token=${accessToken}`;
@@ -94,13 +87,3 @@ export { FacebookService };
 //   const response = await axios.get(url);
 //   return response.data;
 // }
-
-// (async () => {
-//   try {
-//     const instagramBusinessAccountId = await getInstagramBusinessAccount(PAGE_ID, ACCESS_TOKEN);
-//     const conversations = await getConversations(instagramBusinessAccountId, ACCESS_TOKEN);
-//     console.log(conversations);
-//   } catch (error) {
-//     console.error(error.response ? error.response.data : error.message);
-//   }
-// })();
