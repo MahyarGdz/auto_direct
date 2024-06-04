@@ -36,6 +36,14 @@ class FacebookController extends Controller {
     //return
     return this.response({ result }, HttpStatus.Ok);
   }
+
+  @httpGet("/setedPages", Guard.authJwt())
+  public async getSetedPages(@request() req: Request) {
+    const user = req.user as UsersEntity;
+    const result = await this.facebookService.getSetedPages(user);
+    //return
+    return this.response({ result }, HttpStatus.Ok);
+  }
 }
 
 export { FacebookController };

@@ -1,4 +1,4 @@
-import { UsersEntity } from "../../../models";
+import { FBTokensEntity, UsersEntity } from "../../../models";
 
 export interface facebookPageData {
   data: Array<{
@@ -25,7 +25,7 @@ export interface returnPageData {
 
 export interface setPageData {
   access_token: string;
-  name:string,
+  name: string;
   id: string;
 }
 
@@ -60,4 +60,5 @@ export interface IFacebookService {
   setPage(user: UsersEntity, pageId: string): Promise<{ message: string }>;
   getInstagramBusinessAccount(FB_pageId: string, pageAccessToken: string): Promise<InstagramBusinessAccountData>;
   getMedia(user: UsersEntity, pageID: string): Promise<getMediaData>;
+  getSetedPages(user: UsersEntity): Promise<FBTokensEntity[]>;
 }

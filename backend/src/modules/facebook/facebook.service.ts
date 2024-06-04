@@ -99,6 +99,16 @@ class FacebookService implements IFacebookService {
 
     return result;
   }
+
+  async getSetedPages(user: UsersEntity) {
+    const pages = await this.FBTokenRepository.find({
+      where: { user: { id: user.id } },
+      select: { name: true, Page_Id: true, createdAt: true, updatedAt: true, user: { id: true } },
+      relations: { user: true },
+    });
+    if (pages.length <= 0) throw new NotFoundError("the seted page not found");
+    return pages;
+  }
 }
 
 export { FacebookService };

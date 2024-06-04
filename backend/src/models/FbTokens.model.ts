@@ -6,7 +6,7 @@ export class FBTokensEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @ManyToOne(() => UsersEntity, (user) => user.fb_tokens, { eager: true, onDelete: "CASCADE", nullable: false })
+  @ManyToOne(() => UsersEntity, (user) => user.fb_tokens, { onDelete: "CASCADE", nullable: false })
   @JoinColumn({ name: "user_id" })
   user: Relation<UsersEntity>;
 
