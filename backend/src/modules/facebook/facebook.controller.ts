@@ -1,7 +1,7 @@
 import { controller, httpGet, httpPost, request, requestBody } from "inversify-express-utils";
 import { Request } from "express";
 import { Controller, HttpStatus } from "../../common";
-import { Guard } from "../../core";
+import { Guard, ValidationMiddleware } from "../../core";
 import { UsersEntity } from "../../models";
 import { IOCTYPES } from "../../IOC/ioc.types";
 import { IFacebookService } from "./interfaces/IFacebook";
@@ -20,7 +20,7 @@ class FacebookController extends Controller {
     return this.response({ pages });
   }
 
-  @httpPost("/setPage", Guard.authJwt())
+  @httpPost("/setPage", Guard.authJwt(), ValidationMiddleware.validateInput(setPageDataDTO))
   public async setPage(@request() req: Request, @requestBody() pageData: setPageDataDTO) {
     const user = req.user as UsersEntity;
     const { pageID } = pageData;

@@ -5,6 +5,7 @@ import { inject, injectable } from "inversify";
 import { VerifiedCallback } from "passport-jwt";
 import { Request } from "express";
 import { Profile } from "passport-facebook";
+import axios from "axios";
 
 import { NotFoundError, UnauthorizedError, ILogger } from "../../core/";
 import { AuthMessage, AuthTokenPayload } from "../../common";
@@ -113,12 +114,14 @@ class AuthService implements IAuthService {
       if (!user) {
         return done(null, false);
       }
+      //exchange the token to get longlived token for 60 days
+      const longLiveToken = await this.getLongTimeFBToken(token);
 
       user.facebookId = profile.id;
       user.fullname = profile.displayName;
       user.email = profile.emails?.pop()?.value || "";
       user.profile_pic = profile.photos?.pop()?.value || "";
-      user.FBAccessToken = token;
+      user.FBAccessToken = longLiveToken.access_token;
 
       await this.userRepository.save(user);
 
@@ -127,6 +130,21 @@ class AuthService implements IAuthService {
       return done(err, false);
     }
   };
+
+  private async getLongTimeFBToken(token: string) {
+    const url = "https://graph.facebook.com/v20.0/oauth/access_token";
+    const response = await axios.get(url, {
+      params: {
+        grant_type: "fb_exchange_token",
+        client_id: process.env.FB_CLIENT_ID,
+        client_secret: process.env.FB_CLIENT_SEC,
+        fb_exchange_token: token,
+      },
+    });
+
+    const data = response.data as { access_token: string; token_type: string };
+    return data;
+  }
 }
 
 export { AuthService };
