@@ -1,6 +1,0 @@
-3f21b0773bee78dad72d2cec873ab776
-describe("sum module", () => {
-    test("adds 1 + 2 to equal 3", () => {
-        expect(3).toBe(3);
-    });
-});
