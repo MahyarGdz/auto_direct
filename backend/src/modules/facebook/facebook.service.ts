@@ -1,5 +1,12 @@
 import { inject, injectable } from "inversify";
-import { IFacebookService, InstagramBusinessAccountData, facebookPageData, getMediaData, setPageData } from "./interfaces/IFacebook";
+import {
+  FbEvent,
+  IFacebookService,
+  InstagramBusinessAccountData,
+  facebookPageData,
+  getMediaData,
+  setPageData,
+} from "./interfaces/IFacebook";
 import { UsersEntity } from "../../models";
 import axios from "axios";
 import { IOCTYPES } from "../../IOC/ioc.types";
@@ -129,6 +136,10 @@ class FacebookService implements IFacebookService {
     });
     if (pages.length <= 0) throw new NotFoundError("the seted page not found");
     return pages;
+  }
+
+  public async handleWebhook(fbEvent: FbEvent): Promise<void> {
+    console.dir(fbEvent, { depth: null });
   }
 }
 

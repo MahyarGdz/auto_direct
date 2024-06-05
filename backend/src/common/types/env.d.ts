@@ -20,5 +20,6 @@ declare namespace NodeJS {
     FB_CLIENT_ID: string;
     FB_CLIENT_SEC: string;
     FB_CALLBACK: string;
+    FB_WEBHOOK_VERIFY_TOKEN: string;
   }
 }
