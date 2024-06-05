@@ -1,14 +1,14 @@
 import { Repository } from "typeorm";
 import { appDataSrc } from "../../core";
-import { FBTokensEntity } from "../../models";
+import { FBPagesEntity } from "../../models";
 
-class FBTokenRepository extends Repository<FBTokensEntity> {
+class FBPagesRepository extends Repository<FBPagesEntity> {
   constructor() {
-    super(FBTokensEntity, appDataSrc.manager);
+    super(FBPagesEntity, appDataSrc.manager);
   }
 }
-function createFBTokenRepository(): FBTokenRepository {
-  return new FBTokenRepository();
+function createFBPagesRepository(): FBPagesRepository {
+  return new FBPagesRepository();
 }
 
-export { FBTokenRepository, createFBTokenRepository };
+export { FBPagesRepository, createFBPagesRepository };

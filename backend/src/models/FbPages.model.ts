@@ -1,8 +1,8 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, JoinColumn, Relation, ManyToOne } from "typeorm";
 import { UsersEntity } from "./users.model";
 
-@Entity("FB_token")
-export class FBTokensEntity {
+@Entity("FB_Pages")
+export class FBPagesEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -10,10 +10,13 @@ export class FBTokensEntity {
   @JoinColumn({ name: "user_id" })
   user: Relation<UsersEntity>;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   name: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true, unique: true })
+  photo_url: string;
+
+  @Column({ nullable: false, unique: true })
   Page_Id: string;
 
   @Column({ nullable: true })
