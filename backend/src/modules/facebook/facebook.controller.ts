@@ -24,25 +24,25 @@ class FacebookController extends Controller {
   public async setPage(@request() req: Request, @requestBody() pageData: setPageDataDTO) {
     const user = req.user as UsersEntity;
     const { pageID } = pageData;
-    const result = await this.facebookService.setPage(user, pageID);
+    const message = await this.facebookService.setPage(user, pageID);
     //return { message : "The page has been set successfully" }
-    return this.response({ result }, HttpStatus.Ok);
+    return this.response({ message }, HttpStatus.Ok);
   }
 
   @httpGet("/:pageID/getMedia", Guard.authJwt())
   public async getMedia(@request() req: Request, @requestParam("pageID") pageID: string) {
     const user = req.user as UsersEntity;
-    const result = await this.facebookService.getMedia(user, pageID);
+    const pageMedia = await this.facebookService.getMedia(user, pageID);
     //return
-    return this.response({ result }, HttpStatus.Ok);
+    return this.response({ ...pageMedia }, HttpStatus.Ok);
   }
 
   @httpGet("/setedPages", Guard.authJwt())
   public async getSetedPages(@request() req: Request) {
     const user = req.user as UsersEntity;
-    const result = await this.facebookService.getSetedPages(user);
+    const data = await this.facebookService.getSetedPages(user);
     //return
-    return this.response({ result }, HttpStatus.Ok);
+    return this.response({ data }, HttpStatus.Ok);
   }
 }
 

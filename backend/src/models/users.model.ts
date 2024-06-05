@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGenerated
 import { SubscriptionsEntity } from "./subscriptions.model";
 import { PurchasesEntity } from "./purhcases.model";
 import { RefTokensEntity } from "./RefTokens.model";
-import { FBTokensEntity } from "./FbTokens.model";
+import { FBPagesEntity } from "./FbPages.model";
 import { IGCommentEntity } from "./igComment.model";
 
 @Entity("users")
@@ -40,8 +40,8 @@ export class UsersEntity {
   @OneToOne(() => RefTokensEntity, (ref_token) => ref_token.user)
   ref_token!: Relation<RefTokensEntity>;
 
-  @OneToMany(() => FBTokensEntity, (fb_token) => fb_token.user)
-  fb_tokens!: Array<Relation<FBTokensEntity>>;
+  @OneToMany(() => FBPagesEntity, (fb_page) => fb_page.user)
+  fb_tokens!: Array<Relation<FBPagesEntity>>;
 
   @OneToMany(() => SubscriptionsEntity, (subscription) => subscription.user)
   subscriptions!: Array<Relation<SubscriptionsEntity>>;
