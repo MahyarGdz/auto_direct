@@ -5,21 +5,20 @@
   "main": "./src/server.js",
   "scripts": {
     "prebuild": "rimraf dist/",
-    "build": "npx tsc",
+    "build": "npx tsc -p tsconfig.build.json",
     "start": " node dist/server.js",
     "start:dev": "npm-run-all build start",
     "check": "npx tsc --noEmit",
     "lint": "eslint . --ext .ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "debug": "nodemon --watch '*.ts' --exec 'node -r ts-node/register --env-file=.env' ./src/server.ts",
-    "test": "jest",
+    "test": "jest --config jest.config.js --coverage",
     "typeorm": "npx typeorm -d dist/core/appDatasource.js",
     "migration:run": "npm-run-all build \"typeorm -- migration:run \"",
     "migration:revert": "npm-run-all build \"typeorm -- migration:revert ./src \"",
     "migration:generate": "npm-run-all build \"typeorm -- migration:generate src/models/migrations/m \"",
     "migration:create": "npx typeorm migration:create src/models/migrations/m",
     "prepare": "cd .. && husky backend/.husky"
-
   },
   "lint-staged": {
     "**/*.ts": [

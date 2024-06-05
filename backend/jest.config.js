@@ -1,14 +1,15 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  verbose: true,
   preset: "ts-jest",
   testEnvironment: "node",
+  rootDir: ".",
   transform: {
-    "^.+\\.ts?$": ["ts-jest", {}],
+    "^.+\\.tsx?$": ["ts-jest", { tsconfig: "tsconfig.test.json", isolatedModules: true }],
   },
-  testTimeout: 30000,
+  cacheDirectory: "./.jest/cache",
   moduleDirectories: ["node_modules"],
   transformIgnorePatterns: ["<rootDir>/node_modules/"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   testMatch: ["**/test/**/*.ts?(x)", "**/?(*.)+(spec|test).ts?(x)"],
+  //   testTimeout: 30000,
 };
