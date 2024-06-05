@@ -51,8 +51,15 @@ export class ExpressApp {
   private setMiddleware(app: Application) {
     //remove x-powered-by header from response
     app.disable("x-powered-by");
-    //compress the response
+    /**
+     * trust for reverse proxy to get correct ip addresse of user
+     */
+    app.set("trust proxy", 1);
+    // app.get("/ip", (request, response) => response.send(request.ip));
 
+    /**
+     * compress the response
+     */
     app.use(compression());
     /**
      * configure body parser

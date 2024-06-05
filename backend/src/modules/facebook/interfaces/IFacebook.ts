@@ -60,10 +60,24 @@ export interface getMediaData {
     next: string;
   };
 }
+
+export interface FbEvent {
+  object: string;
+  entry: Array<{
+    id: string;
+    time: number;
+    changes: Array<{
+      field: string;
+      value: any;
+    }>;
+  }>;
+}
+
 export interface IFacebookService {
   getPages(user: UsersEntity): Promise<returnPageData[]>;
   setPage(user: UsersEntity, pageId: string): Promise<{ message: string }>;
   getInstagramBusinessAccount(FB_pageId: string, pageAccessToken: string): Promise<InstagramBusinessAccountData>;
   getMedia(user: UsersEntity, pageID: string): Promise<getMediaData>;
   getSetedPages(user: UsersEntity): Promise<FBPagesEntity[]>;
+  handleWebhook(fbEvent: FbEvent): Promise<void>;
 }
