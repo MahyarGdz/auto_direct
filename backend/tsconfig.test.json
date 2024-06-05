@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "Node10",
+    "strict": false,
+    "strictPropertyInitialization": false,
+    "sourceMap": false,
+    "removeComments": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true
+  },
+  "include": ["test"]
+  //   "exclude": ["node_modules"]
+}
