@@ -4,6 +4,7 @@ import { PurchasesEntity } from "./purhcases.model";
 import { RefTokensEntity } from "./RefTokens.model";
 import { FBPagesEntity } from "./FbPages.model";
 import { IGCommentEntity } from "./igComment.model";
+import { RoleEnum } from "../common/enums/role.enum";
 
 @Entity("users")
 export class UsersEntity {
@@ -30,6 +31,9 @@ export class UsersEntity {
 
   @Column({ nullable: true })
   FBAccessToken!: string;
+
+  @Column({ nullable: true, type: "enum", enum: RoleEnum ,default: RoleEnum.User})
+  role: string;
 
   @CreateDateColumn()
   created_At!: Date;
