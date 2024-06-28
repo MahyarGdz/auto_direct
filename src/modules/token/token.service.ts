@@ -52,7 +52,7 @@ export class TokenService {
       return decoded;
     } catch (error) {
       if (error instanceof TokenExpiredError) throw new jwtExpiredErr();
-      this.logger.error(error);
+      this.logger.error("", error);
       throw error;
     }
   }

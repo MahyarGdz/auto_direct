@@ -16,8 +16,6 @@ async function bootStrap() {
     logger.info("The database has been initialized.");
     app.start();
   } catch (error) {
-    console.log(error);
-
     logger.error("Error starting the server.", error);
     process.exit(1);
   }

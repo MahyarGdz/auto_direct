@@ -40,7 +40,7 @@ class Guard {
     (req: Request, _res: Response, next: NextFunction) =>
     async (err: Error, user: UsersEntity, info: string | object | JsonWebTokenError | TokenExpiredError): Promise<void> => {
       if (err) {
-        return next(new UnauthorizedError("Authentication failed"));
+        return next(new UnauthorizedError("Authentication failed-"));
       }
       if (info instanceof TokenExpiredError) {
         return next(new jwtExpiredErr([`${info.expiredAt}`]));

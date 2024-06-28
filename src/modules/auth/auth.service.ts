@@ -101,7 +101,7 @@ class AuthService implements IAuthService {
       }
       done(null, user);
     } catch (error) {
-      this.logger.error(error);
+      this.logger.error("", error);
       done(error, false);
     }
   };
