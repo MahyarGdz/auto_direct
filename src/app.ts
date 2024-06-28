@@ -68,7 +68,7 @@ export class ExpressApp {
     /**
      * configure morgan for http logging
      */
-    app.use(morgan("dev"));
+    app.use(morgan("common"));
     /**
      * configure helmet
      */

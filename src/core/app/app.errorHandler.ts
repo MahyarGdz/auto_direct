@@ -14,7 +14,7 @@ export function notFoundHandler(_req: Request, _res: Response, _next: NextFuncti
 
 // eslint-disable-next-line no-unused-vars
 export function errorHandler(err: Error, req: Request, res: Response, _next: NextFunction) {
-  logger.error(`${req.ip} ${req.method} ${req.path} - ${err.stack}`);
+  logger.error(`[${req.ip}] - ${req.method} ${req.path} - ${res.statusCode}`, { ...err, stack: err.stack });
   if (err instanceof AxiosError) log(err.cause, err.code, err.message);
   const errCode: HttpStatus = err instanceof ApiError ? err.code : 500;
   const errMsg = err instanceof ApiError ? err.message : "Something went wrong. Please try again later.";
