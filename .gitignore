@@ -44,6 +44,7 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 *.lcov
+.jest
 
 # nyc test coverage
 .nyc_output
@@ -161,6 +162,7 @@ dist
 
 ### VisualStudioCode ###
 .vscode/*
+.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
